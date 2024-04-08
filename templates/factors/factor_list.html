@@ -1,0 +1,13 @@
+{% extends '_base.html' %}
+
+
+{% block title %}Factors{% endblock title %}
+
+
+{% block content %}
+  {% for factor in factor_list %}
+    <div>
+      <h2><a href="{{ factor.get_absolute_url }}">{{ factor.factor_id }}</a></h2>
+    </div>
+  {% endfor %}
+{% endblock content %}
