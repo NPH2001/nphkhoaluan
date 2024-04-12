@@ -16,6 +16,7 @@ class Factor(models.Model):
   ra = models.CharField(max_length=200)
   rt = models.CharField(max_length=200)
   rl = models.CharField(max_length=200)
+  rc = models.CharField(max_length=200)
   rd = models.CharField(max_length=200)
   sq = models.CharField(max_length=200)
   # dt = models.DecimalField(max_digits=6, decimal_places=2)

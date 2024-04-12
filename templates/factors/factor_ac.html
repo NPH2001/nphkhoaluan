@@ -6,8 +6,18 @@
 
 {% block content %}
 <div class="factor-ac">
-  <h2><a href="">{{ factor.factor_id }}</a></h2>
-  <p>AC: {{ factor.ac }}</p>
-  <p>DT: {{ factor.dt }}</p>
+  <h2><a href="">{{ factor.ac }}</a></h2>
+  <p>Unique identifier: {{ factor.id }}</p>
+  <p>Unique accession number: {{ factor.ac }}</p>
+  <p>Date of update: {{ factor.dt }}</p>
+  <p>Brief description of the motif: {{ factor.de }}</p>
+  <p>Keywords: {{ factor.kw }}</p>
+  <p>Common name and/or scientific name of plant specie: {{ factor.os }}</p>
+  <p>Author name(s) of a relevant report: {{ factor.ra }}</p>
+  <p>Title of the report: {{ factor.rt }}</p>
+  <p>Bibliographic information of the report: {{ factor.rl }}</p>
+  <p>RC: {{ factor.rc }}</p>
+  <p>PubMed ID numbers or GenBank accession number: {{ factor.rd }}</p>
+  <p>Motif sequence: {{ factor.sq }}</p>
 </div>
 {% endblock content %}

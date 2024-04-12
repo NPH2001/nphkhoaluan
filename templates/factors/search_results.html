@@ -1,0 +1,18 @@
+{% extends '_base.html' %}
+
+
+{% block title %}Search{% endblock title %}
+
+
+{% block content %}
+<h1>Query CARE</h1>
+
+{% for factor in factor_list %}
+    <div>
+      <h3><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h3>
+      <p>AC: {{ factor.ac }}</p>
+      <p>DT: {{ factor.dt }}</p>
+      <p>RD: {{ factor.rd }}</p>
+    </div>
+  {% endfor %}
+{% endblock content %}
