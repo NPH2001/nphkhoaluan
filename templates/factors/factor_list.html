@@ -5,9 +5,21 @@
 
 
 {% block content %}
-  {% for factor in factor_list %}
+  <h1>Search Factor<h1>
     <div>
-      <h2><a href="{{ factor.get_absolute_url }}">{{ factor.factor_id }}</a></h2>
+      hello
+      <form class="form-inline mt-2 mt-md-0" action="{% url 'search_results' %}"
+      method="get">
+        <input name="accnumber" class="form-control mr-sm-2" type="text" placeholder="Search"
+        aria-label="Search">
+        <input name="dateupdate" class="form-control mr-sm-2" type="text" placeholder="Search"
+        aria-label="Search">
+        <input type="submit" value="Submit">
+      </form>
     </div>
-  {% endfor %}
+  <!-- {% for factor in factor_list %}
+    <div>
+      <h2><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h2>
+    </div>
+  {% endfor %} -->
 {% endblock content %}
