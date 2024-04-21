@@ -28,4 +28,5 @@ urlpatterns = [
     #Local apps
     path('', include('pages.urls')),
     path('factors/', include('factors.urls')),
+    path('searchforcare/', include('searchforcares.urls')),
 ]

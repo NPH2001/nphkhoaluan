@@ -4,10 +4,22 @@ h1 {
 
   
 .bookcover {
-  height: 300px;
+  height: 500px;
   width: auto;
   }
 
 h5 {
   color: brown;
+}
+h3 {
+  color: blue;
+}
+
+.result_sequences {
+  width: 200px;
+
+}
+
+.highlight {
+  background-color: rgb(201, 130, 134); /* Change this to the desired highlight color */
 }

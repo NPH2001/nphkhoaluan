@@ -1,0 +1,12 @@
+{% extends '_base.html' %}
+{% block title %}Search For Care{% endblock title %}
+
+
+{% block content %}
+<h1>Hello</h1>
+  {% for motif in motif_list %}
+    <div>
+      <h2><a href="{% url 'motif_detail' motif.pk %}">{{ motif.sequences }}</a></h2>
+    </div>
+  {% endfor %}
+{% endblock content %}
