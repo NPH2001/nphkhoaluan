@@ -1,0 +1,10 @@
+{% extends '_base.html' %}
+{% block title %}{{ motif.sequences }}{% endblock title %}
+{% block content %}
+<div class="motif-detail">
+  <h2><a href="">{{ motif.sequences }}</a></h2>
+  <p>Location Start: {{ motif.location_start }}</p>
+  <p>Location End: {{ motif.location_end }}</p>
+  <p>Date Time: {{ motif.datetime }}</p>
+</div>
+{% endblock content %}
