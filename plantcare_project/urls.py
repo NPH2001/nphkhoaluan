@@ -29,4 +29,5 @@ urlpatterns = [
     path('', include('pages.urls')),
     path('factors/', include('factors.urls')),
     path('searchforcare/', include('searchforcares.urls')),
+    path('history/', include('history.urls')),
 ]
