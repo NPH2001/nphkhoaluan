@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     # Third-party
     'crispy_forms',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'factors.apps.FactorsConfig',
     'searchforcares.apps.SearchforcaresConfig',
+    'history.apps.HistoryConfig',
 ]
 
 MIDDLEWARE = [

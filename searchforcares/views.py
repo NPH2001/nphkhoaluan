@@ -4,6 +4,10 @@ from .models import Searchforcare
 
 from factors.models import Factor
 
+from history.mixins import ObjectViewMixin
+from history.signals import object_viewed_signal
+
+
 import re
 import numpy as np
 
@@ -12,11 +16,12 @@ import numpy as np
 
 # motif_found = {}
 
-class SearchMotif(ListView):
+class SearchMotif(ObjectViewMixin, ListView):
   model = Searchforcare
   template_name = 'search_motif/result_search_motif.html'
 
   motif_found = {}
+
   
   def find_sequence_in_database(self, fragment_dna, database):
     found_sequences = []
@@ -70,4 +75,10 @@ class SearchMotif(ListView):
         context['fragment_results'] = SearchMotif.foundsequences(found_sequences, fragment)
         context['reverse_fragment_results'] = SearchMotif.foundsequences(reverse_found_sequences, reverse_fragment)
         return context
+  
+  def dispatch(self, request, *args, **kwargs):
+        query = request.GET.get('sequencetosubmit', '')  # Lấy thông tin tìm kiếm từ request
+        user = request.user if request.user.is_authenticated else None  # Lấy thông tin người dùng
+        self.record_search_history(query, user)
+        return super().dispatch(request, *args, **kwargs)
 
