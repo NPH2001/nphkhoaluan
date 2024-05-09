@@ -30,4 +30,5 @@ urlpatterns = [
     path('factors/', include('factors.urls')),
     path('searchforcare/', include('searchforcares.urls')),
     path('history/', include('history.urls')),
+    path('biologist/', include('biologist.urls')),
 ]

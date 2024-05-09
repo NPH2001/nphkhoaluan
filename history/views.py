@@ -5,9 +5,11 @@ from django.views.generic.detail import SingleObjectMixin
 from .models import History
 
 class HistoryList(ListView):
+    model = History
+    context_object_name = 'history_lists'
     def get_queryset(self):
-        user_history = History.objects.filter(user=self.request.user)
-        return user_history
+        user_history = History.objects.filter(user=self.request.user).order_by('created_at')
+        return user_history.reverse()
 
 
 class HistoryDelete(SingleObjectMixin, View):

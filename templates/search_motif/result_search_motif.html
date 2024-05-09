@@ -9,17 +9,18 @@
 
 <div class="result_sequences">
   <h3>fragment_results</h3>
-  <p class="display_result_motif">{{fragment_results|safe }}</p>
+  <p class="display_result_motif" >{{fragment_results|safe }}</p>
 
   <h3>reverse_fragment_results</h3>
   <p class="display_result_motif">{{reverse_fragment_results|safe }}</p>
 
-  {% for factor in factor_list %}
+  {% for factor in motif_found %}
     <div>
-      <h3><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h3>
+      <p>factor</p>
+      <!-- <h3><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h3>
       <p>AC: {{ factor.ac }}</p>
       <p>DT: {{ factor.dt }}</p>
-      <p>RD: {{ factor.rd }}</p>
+      <p>RD: {{ factor.rd }}</p> -->
     </div>
   {% endfor %}
 

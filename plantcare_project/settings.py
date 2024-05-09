@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'factors.apps.FactorsConfig',
     'searchforcares.apps.SearchforcaresConfig',
     'history.apps.HistoryConfig',
+    'biologist.apps.BiologistConfig',
 ]
 
 MIDDLEWARE = [
