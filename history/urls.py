@@ -1,8 +1,9 @@
 from django.urls import path
 
-from history import views
+from .views import HistoryList, HistoryDelete, return_to_search
 
 urlpatterns = [
-    path('delete/<int:pk>', views.HistoryDelete.as_view(), name='history_delete'),
-    path('', views.HistoryList.as_view(), name='history'),
+    path('delete/<int:pk>', HistoryDelete.as_view(), name='history_delete'),
+    path('history/<int:pk>/return/', return_to_search, name='return_to_search'),
+    path('', HistoryList.as_view(), name='history'),
 ]
