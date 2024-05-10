@@ -31,4 +31,5 @@ urlpatterns = [
     path('searchforcare/', include('searchforcares.urls')),
     path('history/', include('history.urls')),
     path('biologist/', include('biologist.urls')),
+    path('motifsampler/', include('motifsampler.urls'))
 ]
