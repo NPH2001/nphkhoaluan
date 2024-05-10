@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'searchforcares.apps.SearchforcaresConfig',
     'history.apps.HistoryConfig',
     'biologist.apps.BiologistConfig',
+    'motifsampler.apps.MotifsamplerConfig',
 ]
 
 MIDDLEWARE = [
