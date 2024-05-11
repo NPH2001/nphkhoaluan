@@ -9,22 +9,22 @@
 
 <div class="result_sequences">
   <h3>fragment_results</h3>
-  <p class="display_result_motif" >{{fragment_results|safe }}</p>
+  <p class="display_result_motif">{{fragment_results|safe }}</p>
 
   <h3>reverse_fragment_results</h3>
   <p class="display_result_motif">{{reverse_fragment_results|safe }}</p>
 
-  {% for factor in motif_found %}
-    <div>
-      <p>factor</p>
-      <!-- <h3><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h3>
+  <!-- {% for factor in motif_found %}
+      <p><a href="{{ searchforcare.get_absolute_url }}">{{factor}}</a></p>
+  {% endfor %}
+      <h3><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h3>
       <p>AC: {{ factor.ac }}</p>
       <p>DT: {{ factor.dt }}</p>
-      <p>RD: {{ factor.rd }}</p> -->
-    </div>
-  {% endfor %}
-
+      <p>RD: {{ factor.rd }}</p>  --> 
+  <h3>Motif found in sequence to submit</h3>
   <p>{{ motif_found }}</p>
+  <h3>Motif found in sequence_reverse to submit</h3>
+  <p>{{ reverse_motif_found }}</p>
 
 </div>
 
