@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+
 class Searchforcare(models.Model):
   sequences = models.CharField(max_length=200)
   location_start = models.CharField(max_length=200)

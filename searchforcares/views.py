@@ -71,6 +71,7 @@ class SearchMotif(ObjectViewMixin, ListView):
         reverse_found_sequences = self.find_sequence_in_database(reverse_fragment, database)
         
         context['motif_found'] = {key: value for key, value, _, _ in found_sequences}
+        context['reverse_motif_found'] = {key: value for key, value, _, _ in reverse_found_sequences}
         context['factor_ac'] = database
         context['fragment_results'] = SearchMotif.foundsequences(found_sequences, fragment)
         context['reverse_fragment_results'] = SearchMotif.foundsequences(reverse_found_sequences, reverse_fragment)
