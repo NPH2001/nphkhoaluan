@@ -44,15 +44,21 @@ class SearchMotif(ObjectViewMixin, ListView):
         return seq
   
   def foundsequences(found_sequences, fragment):
-        colored_sequence = ""
-        last_end = 0
-        if found_sequences:
-            for sequence, _, start, end in found_sequences:
+    colored_sequence = ""
+    last_end = 0
+    if found_sequences:
+        found_sequences.sort(key=lambda x: x[2])  # Sort sequences by start position
+        for sequence, _, start, end in found_sequences:
+            if start >= last_end:  # Ensure no overlap
                 colored_sequence += fragment[last_end:start]  # Append non-matching portion
-                colored_sequence +=  f'<span class="highlight">{(fragment[start:end])}</span>'   # Color matching portion
+                colored_sequence += f'<span class="highlight">{(fragment[start:end])}</span>'  # Color matching portion
                 last_end = end
-            colored_sequence += fragment[last_end:]  # Append the remaining portion of the sequence
-        return colored_sequence
+            elif end > last_end:  # Handle overlap
+                colored_sequence += f'<span class="highlight">{(fragment[last_end:end])}</span>'  # Color overlapping portion
+                last_end = end
+    colored_sequence += fragment[last_end:]  # Append the remaining portion of the sequence
+    return colored_sequence
+
   
   
   def get_context_data(self, **kwargs):
@@ -60,16 +66,16 @@ class SearchMotif(ObjectViewMixin, ListView):
         fragment = self.request.GET.get('sequencetosubmit')
         reverse_fragment = SearchMotif.rev_comp_st(fragment)
         
-        color_map = {}
         factors = Factor.objects.all()
         database = {}
         for factor in factors:
             database.update({factor.ac: factor.sq})
-            color_map[factor.ac] = list(np.random.choice(range(256), size=3))
 
         found_sequences = self.find_sequence_in_database(fragment, database)
         reverse_found_sequences = self.find_sequence_in_database(reverse_fragment, database)
-        
+
+        context['fragment'] = fragment
+        context['reverse_fragment'] = reverse_fragment        
         context['motif_found'] = {key: value for key, value, _, _ in found_sequences}
         context['reverse_motif_found'] = {key: value for key, value, _, _ in reverse_found_sequences}
         context['factor_ac'] = database

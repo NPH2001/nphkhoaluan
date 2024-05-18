@@ -18,7 +18,7 @@ def return_to_search(request, pk):
     search_query = history_entry.query
     # Redirect to your search results view with the search query
     url_history = reverse('result_search_motif') + f'?sequencetosubmit={search_query}'
-    # url_history = reverse('search_results') + '?identifier=&accnumber=392&dateupdate=&briefdescription=&keywords=&os=&authorname=&titlereport=&bibliographic=&rd=&sequence='
+    url_history = reverse('search_results') + '?identifier=&accnumber=392&dateupdate=&briefdescription=&keywords=&os=&authorname=&titlereport=&bibliographic=&rd=&sequence='
     return redirect(url_history)
 
 

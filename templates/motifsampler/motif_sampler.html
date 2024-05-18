@@ -10,8 +10,9 @@
   
   <h1>Motif Sampler</h1>
   <h5>Input:</h5>
-  <form class="form-horizontal" action="{%url 'motifsampler_result' %}">
-
+  <form method="post" enctype="multipart/form-data"   action="{%url 'motifsampler_result' %}">
+    {% csrf_token %}
+    {{ form }}
 
     <div class="mb-3">
       <div class="row">
@@ -20,7 +21,7 @@
         </div>
         <div class="col-sm-6">
           <label for="formFile" class="form-label">Select File</label>
-          <input class="form-control" type="file" id="-f_file">
+          <input class="form-control" type="file" id="-f_file" name="-f_file">
         </div>
       </div>
     </div>

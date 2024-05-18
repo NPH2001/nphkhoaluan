@@ -1,13 +1,12 @@
 {% extends '_base.html' %}
+{% load static %}
 
-{% block title %}Books{% endblock title %}
+{% block title %}Biologist{% endblock title %}
 
 {% block content %}
 
 <h2>Biologist</h2>
-<div class="row">
-  <div class="col-12">
-      <table>
+<table class="table">
         <thead>
           <tr>
             <th scope="col">Motif</th>
@@ -19,7 +18,7 @@
           
           {% for biologist in biologist_list %}
             <tr>
-              <td><a href=""></a>{{ biologist.sequences }}</td>
+              <td class="sequence"><a href=""></a>{{ biologist.sequences }}</td>
               <td><a href="{% url 'biologist_delete' biologist.pk  %}" class="btn btn-danger">Confirm</a></td>
               <td><a href="{% url 'biologist_delete' biologist.pk  %}" class="btn btn-danger">No Confirm</a></td>
             </tr>
@@ -27,7 +26,6 @@
           {% endfor %}
         </tbody>
       </table>
-  </div>
-</div>
+
 
 {% endblock content %}
