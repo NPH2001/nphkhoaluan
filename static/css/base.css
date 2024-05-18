@@ -25,3 +25,22 @@ h3 {
   background-color: rgb(201, 130, 134); /* Change this to the desired highlight color */
 }
 
+.type1 {
+  /* Color for sequence type 1 */
+  background-color: lightblue;
+}
+
+.type2 {
+  /* Color for sequence type 2 */
+  background-color: lightgreen;
+}
+
+table {
+  background-color: aqua;
+  overflow-wrap: anywhere;
+}
+
+table.table > td.sequence {
+  background-color: crimson;
+}
+
