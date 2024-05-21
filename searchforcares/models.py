@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-
+from factors.models import *
 
 class Searchforcare(models.Model):
   sequences = models.CharField(max_length=200)
@@ -13,3 +13,10 @@ class Searchforcare(models.Model):
   
   def get_absolute_url(self): # new
     return reverse('motif_detail', args=[str(self.id)])
+  
+
+class History_search_care(models.Model):
+  F_r = models.CharField(max_length=5000, null=True, blank=True)
+  R_f_r = models.CharField(max_length=5000, null=True, blank=True)
+  Ms= models.ManyToManyField(Factor, related_name='Ms_factor', blank=True)
+  Ms_r = models.ManyToManyField(Factor, related_name='Ms_r_factor', blank=True)

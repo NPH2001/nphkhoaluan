@@ -1,0 +1,103 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}Biologist{% endblock title %}
+
+{% block content %}
+
+<h2>Biologist Create</h2>
+<form method="post" enctype="multipart/form-data" action="{% url 'Biologist_Create' %}">
+  {% csrf_token %}
+  <input type="text" class="form-control" id="id_confim"  name="id_confim"  value="{{id}}" readonly style="display:none"  >
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2 ">SQ</label>
+        <input type="text" class="form-control" id="sq"  name="sq"  value="{{data}}" readonly>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2">AC</label>
+        <input type="text" class="form-control" id="ac"  name="ac">
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2">DT</label>
+        <input type="text" class="form-control" id="dt"  name="dt">
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2">DE</label>
+        <!-- <input type="text" class="form-control" id="de"  name="de"> -->
+        <textarea class="form-control" id="de" name="de"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2">KW</label>
+        <!-- <input type="text" class="form-control" id="kw"  name="kw"> -->
+        <textarea class="form-control" id="kw"  name="kw"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2">OS</label>
+        <!-- <input type="text" class="form-control" id="os"  name="os"> -->
+        <textarea class="form-control" id="os"  name="os"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2">RA</label>
+        <!-- <input type="text" class="form-control" id="ra"  name="ra"> -->
+        <textarea class="form-control" id="ra"  name="ra"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2">RT</label>
+        <!-- <input type="text" class="form-control" id="rt"  name="rt"> -->
+        <textarea class="form-control" id="rt"  name="rt"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2">RL</label>
+        <!-- <input type="text" class="form-control" id="rl"  name="rl"> -->
+        <textarea class="form-control" id="rl"  name="rl"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-sm-6 d-flex align-items-center justify-content-center">
+        <label for="formFile" class="form-label mr-2">RD</label>
+        <!-- <input type="text" class="form-control" id="rd"  name="rd"> -->
+        <textarea class="form-control" id="rd"  name="rd"></textarea>
+      </div>
+    </div>
+  </div>
+  <input type="submit" value="Submit">
+</form>
+
+
+{% endblock content %}

@@ -19,7 +19,7 @@
           {% for biologist in biologist_list %}
             <tr>
               <td class="sequence"><a href=""></a>{{ biologist.sequences }}</td>
-              <td><a href="{% url 'biologist_delete' biologist.pk  %}" class="btn btn-danger">Confirm</a></td>
+              <td><a href="{% url 'Biologist_Create' %}?data={{ biologist.sequences }}&id={{ biologist.id }}" class="btn btn-danger">Confirm</a></td>
               <td><a href="{% url 'biologist_delete' biologist.pk  %}" class="btn btn-danger">No Confirm</a></td>
             </tr>
             
