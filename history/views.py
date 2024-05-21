@@ -5,6 +5,24 @@ from django.urls import reverse
 
 from .models import History
 
+def history_detail_query_care(request,pk):
+    if request.method == 'GET':
+        detail_list = History.objects.get(pk=pk)
+        context = {'history_detail':detail_list}
+        print('context:',context)
+        return render(request, 'history/history_detail_query_care.html', context, status=200)
+    
+def history_detail_search_care(request,pk):
+    if request.method == 'GET':
+        detail_list = History.objects.get(pk=pk)
+        Ms= detail_list.Belong_history_search_care.Ms.all()
+        Ms=sorted(Ms, key=lambda i: len(i.sq), reverse=True)
+        Ms_r= detail_list.Belong_history_search_care.Ms_r.all()
+        Ms_r=sorted(Ms_r, key=lambda i: len(i.sq), reverse=True)
+        context = {'history_detail':detail_list,'Ms':Ms,'Ms_r':Ms_r}
+        print('context:',context)
+        return render(request, 'history/history_detail_search_care.html', context, status=200)
+
 class HistoryList(ListView):
     model = History
     context_object_name = 'history_lists'

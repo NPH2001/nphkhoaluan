@@ -1,203 +1,222 @@
 {% extends '_base.html' %}
 {% load static %}
-
-
 {% block title %}Search For CARE{% endblock title %}
-
-
 {% block content %}
 <div class="container">
-  
   <h1>Motif Sampler</h1>
   <h5>Input:</h5>
-  <form method="post" enctype="multipart/form-data"   action="{%url 'motifsampler_result' %}">
+  <form method="post" enctype="multipart/form-data" action="{% url 'motifsampler_list' %}">
     {% csrf_token %}
-    {{ form }}
-
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-f &lt;filename&gt;:   file with DNA sequences in Fasta format</p>
+          <p>-f &lt;filename&gt;: file with DNA sequences in Fasta format</p>
         </div>
         <div class="col-sm-6">
           <label for="formFile" class="form-label">Select File</label>
-          <input class="form-control" type="file" id="-f_file" name="-f_file">
+          <input class="form-control" placeholder="choose File" type="file" accept=".fasta, .fna, .txt" id="-f_file" name="-f_file" required>
+          {% if data_dict and data_dict.filename %}
+              value="{{ data_dict.filename }}"
+          {% endif %}
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-q &lt;filename&gt;: (optional) file with position-specific prior (PSP) scores over DNA positions in PSP format</p>
-        </div>
-        <div class="col-sm-6">
-          <label for="formFile" class="form-label">Select File</label>
-          <input class="form-control" type="file" id="-q_file">
-        </div>
-      </div>
-    </div>
-  
-    <div class="mb-3">
-      <div class="row">
-        <div class="col-sm-6">
-          <p>-b &lt;filename&gt;:  file with genome-specific backgroundmodel
+          <p>-b &lt;filename&gt;: file with genome-specific backgroundmodel
             (format), please choose your way :</p>
         </div>
         <div class="col-sm-6">
           <label for="formFile" class="form-label">Select File</label>
-          <input class="form-control" type="file" id="-b_file">
+          <input class="form-control" type="file" accept=".bg" id="-b_file" name="-b_file" required>
+          {% if data_dict and data_dict.genome__specific %}
+              value="{{data_dict.genome__specific}}"
+          {% endif %}
         </div>
       </div>
     </div>
-  
     <h5>Output:</h5>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-o &lt;filename&gt;:   file with solutions in annotated instances format</p>
+          <p>-o &lt;filename&gt;: file with solutions in annotated instances format</p>
         </div>
         <div class="col-sm-6">
-          <input type="text" class="form-control" id="output_o" placeholder="filename.txt"  name="output_o">
+          <input type="text" class="form-control" id="output_o" placeholder="filename.txt" name="output_o" required
+          {% if data_dict and data_dict.output_o %}
+              value="{{ data_dict.output_o }}"
+          {% endif %}
+          >
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-m &lt;filename&gt;:   file with solutions in PWM format</p>
+          <p>-m &lt;filename&gt;: file with solutions in PWM format</p>
         </div>
         <div class="col-sm-6">
-          <input type="text" class="form-control" id="output_m" placeholder="filename.mtrx"  name="output_m">
+          <input type="text" class="form-control" id="output_m" placeholder="filename.mtrx" name="output_m" required
+          {% if data_dict and data_dict.output_m %}
+              value="{{ data_dict.output_m }}"
+          {% endif %}
+          >
         </div>
       </div>
     </div>
-  
     <h5>Parameters:</h5>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-r &lt;value&gt;:   number of times one algorithm run should be repeated with the same parameter settings on the same input sequence dataset. Default &lt;100&gt;</p>
+          <p>-r &lt;value&gt;: number of times one algorithm run should be repeated with the same parameter settings on
+            the same input sequence dataset. Default &lt;100&gt;</p>
         </div>
         <div class="col-sm-6">
-          <input type="number" class="form-control" id="-r_optional" value="100"  name="-r_optional">
+          <input type="number" class="form-control" id="-r_optional" name="-r_optional"
+          {% if data_dict and data_dict.number_of_times %}
+              value="{{ data_dict.number_of_times }}"
+          {% else %}
+              value="100"
+          {% endif %}
+          >
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-s &lt;0|1&gt;:   default <1> both strands of the sequences will be analyzed (i.e. input sequences and the reverse complement). &lt;0&gt; is only input sequences.</p>
+          <p>-s &lt;0|1&gt;: default <1> both strands of the sequences will be analyzed (i.e. input sequences and the
+              reverse complement). &lt;0&gt; is only input sequences.</p>
         </div>
         <div class="col-sm-6">
-          <select class="form-control" id="-s_optional">
-            <option>0</option>
-            <option>1</option>
+          <select class="form-control" id="-s_optional" name="-s_optional">
+            <option {% if data_dict and data_dict.strands_of_sequences and data_dict.strands_of_sequences == '0' %}selected{% endif %} value="0">0</option>
+            <option {% if data_dict and data_dict.strands_of_sequences and data_dict.strands_of_sequences == '1' %}selected{% endif %} value="1">1</option>
           </select>
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-w &lt;value&gt;:   length of the motif. Default &lt;8&gt;</p>
+          <p>-w &lt;value&gt;: length of the motif. Default &lt;8&gt;</p>
         </div>
         <div class="col-sm-6">
-          <input type="number" class="form-control" id="-w_optional" value="8"  name="-w_optional">
+          <input type="number" class="form-control" id="-w_optional" value="8" name="-w_optional"
+          {% if data_dict and data_dict.length_of_mothif %}
+              value="{{ data_dict.length_of_mothif }}"
+          {% else %}
+              value="8"
+          {% endif %}
+          >
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-n &lt;value&gt;:   number of different motifs to search for. Default &lt;1&gt;</p>
+          <p>-n &lt;value&gt;: number of different motifs to search for. Default &lt;1&gt;</p>
         </div>
         <div class="col-sm-6">
-          <input type="number" class="form-control" id="-n_optional" value="1"  name="-n_optional">
+          <input type="number" class="form-control" id="-n_optional" value="1" name="-n_optional"
+          {% if data_dict and data_dict.number_of_diff_motif %}
+              value="{{ data_dict.number_of_diff_motif }}"
+          {% else %}
+              value="1"
+          {% endif %}
+          >
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-x &lt;value&gt;:   maximal allowed overlap between different motifs (only used if -n > 1). Default &lt;1&gt;</p>
+          <p>-x &lt;value&gt;: maximal allowed overlap between different motifs (only used if -n > 1). Default &lt;1&gt;
+          </p>
         </div>
         <div class="col-sm-6">
-          <input type="number" class="form-control" id="-x_optional" value="1"  name="-x_optional">
+          <input type="number" class="form-control" id="-x_optional" name="-x_optional"
+          {% if data_dict and data_dict.maxial_allowed %}
+              value="{{ data_dict.maxial_allowed }}"
+          {% else %}
+              value="1"
+          {% endif %}
+          >
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p> -M &lt;value&gt;:   maximum number of instances of a motif to search for in any sequence. Default &lt;2&gt;.</p>
+          <p> -M &lt;value&gt;: maximum number of instances of a motif to search for in any sequence. Default &lt;2&gt;.
+          </p>
         </div>
         <div class="col-sm-6">
-          <input type="number" class="form-control" id="-M_optional" value="2"  name="-M_optional">
+          <input type="number" class="form-control" id="-M_optional" name="-M_optional"
+          {% if data_dict and data_dict.maxium_number %}
+              value="{{ data_dict.maxium_number }}"
+          {% else %}
+              value="2"
+          {% endif %}
+          >
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-p &lt;prior&gt;:   sets prior information on the number of instances of a motif to search for per sequence. Default is tuned towards mainly 1 instance per sequence (but also 0 and 2 allocations are possible). Read more in 5 prior types for more options on this parameter.</p>
+          <p>-p &lt;prior&gt;: sets prior information on the number of instances of a motif to search for per sequence.
+            Default is tuned towards mainly 1 instance per sequence (but also 0 and 2 allocations are possible). Read
+            more in 5 prior types for more options on this parameter.</p>
         </div>
         <div class="col-sm-6">
-          <select class="form-control" id="-p_optional">
-            <option>mainly one</option>
-            <option>exactly one</option>
-            <option>no bias</option>
-            <option>mainly one or two</option>
-            <option>exactly two</option>
-            <option>mainly two or three</option>
+          <select class="form-control" id="-p_optional" name="-p_optional">
+            <option {% if data_dict and data_dict.sets_prior and data_dict.sets_prior == 'mainly one' %}selected{% endif %} >mainly one</option>
+            <option {% if data_dict and data_dict.sets_prior and data_dict.sets_prior == 'exactly one' %}selected{% endif %}>exactly one</option>
+            <option {% if data_dict and data_dict.sets_prior and data_dict.sets_prior == 'no bias' %}selected{% endif %}>no bias</option>
+            <option {% if data_dict and data_dict.sets_prior and data_dict.sets_prior == 'mainly one or two' %}selected{% endif %}>mainly one or two</option>
+            <option {% if data_dict and data_dict.sets_prior and data_dict.sets_prior == 'exactly two' %}selected{% endif %}>exactly two</option>
+            <option {% if data_dict and data_dict.sets_prior and data_dict.sets_prior == 'mainly two or three' %}selected{% endif %}>mainly two or three</option>
           </select>
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-Q &lt;value&gt;  sets a weight on the PSP information (provided in -q file) compared to applying a uniform PSP. Default <10></10></p>
+          <p>-Q &lt;value&gt; sets a weight on the PSP information (provided in -q file) compared to applying a uniform
+            PSP. Default &lt;100&gt;
+          </p>
         </div>
         <div class="col-sm-6">
-          <input type="number" class="form-control" id="-Q_optional" value="100"  name="-Q_optional">
+          <input type="number" class="form-control" id="-Q_optional" name="-Q_optional"
+          {% if data_dict and data_dict.sets_weight %}
+              value="{{ data_dict.sets_weight }}"
+          {% else %}
+              value="100"
+          {% endif %}
+          >
         </div>
       </div>
     </div>
-  
     <div class="mb-3">
       <div class="row">
         <div class="col-sm-6">
-          <p>-z &lt;0|1&gt;:   Temporary parameter, only for internal use. Please do not change the setting unless you are informed on its impact on motif sampling. Default &lt;1&gt;</1></p>
+          <p>-z &lt;0|1&gt;: Temporary parameter, only for internal use. Please do not change the setting unless you are
+            informed on its impact on motif sampling. Default &lt;1&gt;</1>
+          </p>
         </div>
         <div class="col-sm-6">
-          <select class="form-control" id="-z_optional">
-            <option>1</option>
-            <option>0</option>
+          <select class="form-control" id="-z_optional" name="-z_optional">
+            <option {% if data_dict and data_dict.temporary_parameter and data_dict.temporary_parameter == '1' %}selected{% endif %} value="1">1</option>
+            <option {% if data_dict and data_dict.temporary_parameter and data_dict.temporary_parameter == '0' %}selected{% endif %} value="0">0</option>
           </select>
         </div>
       </div>
     </div>
-  
-  
-  
     <input type="submit" value="Submit">
     <input type="reset" value="Reset">
   </form>
-    
 </div>
-
-
-
-
 {% endblock content %}

@@ -21,7 +21,9 @@
                 
                 {% for history in history_lists %}
                     <tr>
-                        <td class="text-wrap" style="overflow-wrap: anywhere;"> <a href="{% url 'return_to_search' history.pk %}">{{history.query}}</a></td>
+                        <td class="text-wrap" style="overflow-wrap: anywhere;">
+                            <a href="{% if history.Belong_history_search_care %}{% url 'history_detail_search_care' pk=history.id %}{% else %}{% url 'history_detail_query_care' pk=history.id %}{% endif %}">{{history.query}}</a>
+                        </td>
                         <!-- <td class="text-wrap" style="overflow-wrap: anywhere;">{{ history.query }}</td> -->
                         <td>{{ history.created_at }}</td>
                         <td><a href="{% url 'history_delete' history.pk  %}" class="btn btn-danger">Delete</a></td>
