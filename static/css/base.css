@@ -2,6 +2,7 @@ h1 {
   color: rgb(71, 189, 124);
   margin-left: 20px;
   font-family: Georgia, 'Times New Roman', Times, serif;
+
   }
 
   
@@ -74,8 +75,10 @@ th.viewon, th.delete {
 .d-flex.flex-column.flex-md-row.align-items-center.p-3.px-md-4.mb-3.bg-green.border-bottom.shadow-sm {
   text-align:center;
   background-color: aliceblue;
+
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 22px;
+
 }
 
 
@@ -95,6 +98,7 @@ th.viewon, th.delete {
   font-size: 28px;
   margin-left: 10px;
   font-family: Georgia, 'Times New Roman', Times, serif;
+
 }
 
 .user-history {
