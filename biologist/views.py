@@ -40,7 +40,7 @@ def Biologist_Create(request):
         rd = request.POST.get('rd')
         sq = request.POST.get('sq')
         print('sq:',sq)
-        ff = Factor.objects.create(ac=ac,dt=dt,de=de,kw=kw,os=os,ra=ra,rt=rt,rl=rl,rd=rd,sq=sq,color = random_color(),note='add')
+        ff = Factor.objects.create(ac=ac,dt=dt,de=de,kw=kw,os=os,ra=ra,rt=rt,rl=rl,rd=rd,sq=sq,color = random_color(),note='computational motif')
         print('ff:',ff)
         bg = Biologist.objects.get(pk=int(id_confim))
         bg.delete()
