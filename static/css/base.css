@@ -132,8 +132,12 @@ h2 {
   width: 100%;
   text-align: left;
 }
-.result_sequences, .factor-ac {
+.result_sequences {
   margin-left: 50px;
+}
+
+.factor-ac {
+  margin-left: 300px;
 }
 
 .search_results {
@@ -172,4 +176,8 @@ h2 {
 
 .login {
   margin-left: 40px;
+}
+
+.biologist_create {
+  margin-left: 80px;
 }
