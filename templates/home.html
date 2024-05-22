@@ -9,7 +9,6 @@
 <h1>Homepage</h1>
 
 <!-- <img class="bookcover" src="{% static '' %}"> -->
-<<<<<<< HEAD
 <div class="hompage">
 
     {% if user.is_authenticated %}
@@ -21,14 +20,4 @@
         <a href="{% url 'account_signup' %}">Sign Up</a>
     {% endif %}
 </div>
-=======
-{% if user.is_authenticated %}
-    Hi {{ user.email }}!
-    <p><a href="{% url 'account_logout' %}">Log Out</a></p>
-{% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'account_login' %}">Log In</a>
-    <a href="{% url 'account_signup' %}">Sign Up</a>
-{% endif %}
->>>>>>> 324c4a2143bb3343be9594996693fd926351c916
 {% endblock content %}
