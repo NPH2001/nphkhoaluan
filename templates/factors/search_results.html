@@ -5,8 +5,9 @@
 
 
 {% block content %}
-<h1>Query CARE</h1>
+<h2>Result Query CARE</h2>
 
+<div class="search_results">
 {% for factor in factor_list %}
     <div>
       <h3><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h3>
@@ -15,4 +16,5 @@
       <p>RD: {{ factor.rd }}</p>
     </div>
   {% endfor %}
+</div>
 {% endblock content %}

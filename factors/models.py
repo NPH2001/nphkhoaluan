@@ -7,23 +7,24 @@ class Factor(models.Model):
       primary_key=True,
       default=uuid.uuid4,
       editable=False)
-  factor_id = models.CharField(max_length=200)
-  ac = models.CharField(max_length=200)
-  dt = models.CharField(max_length=200)
-  de = models.TextField()
-  kw = models.TextField()
-  os = models.TextField()
-  ra = models.TextField()
-  rt = models.TextField()
-  rl = models.TextField()
-  rc = models.TextField()
-  rd = models.TextField()
-  sq = models.CharField(max_length=200)
+  ac = models.CharField(max_length=200,null=True, blank=True)
+  dt = models.CharField(max_length=200,null=True, blank=True)
+  de = models.TextField(null=True, blank=True)
+  kw = models.TextField(null=True, blank=True)
+  os = models.TextField(null=True, blank=True)
+  ra = models.TextField(null=True, blank=True)
+  rt = models.TextField(null=True, blank=True)
+  rl = models.TextField(null=True, blank=True)
+  rc = models.TextField(null=True, blank=True)
+  rd = models.TextField(null=True, blank=True)
+  sq = models.CharField(max_length=200,null=True, blank=True)
+  color = models.CharField(max_length=200,null=True, blank=True)
+  note = models.CharField(max_length=100, null=True, blank=True)
   # dt = models.DecimalField(max_digits=6, decimal_places=2)
 
   
   def __str__(self):
-    return self.factor_id
+    return str(self.id)
   
   def get_absolute_url(self):
     return reverse('factor_ac', args=[str(self.id)])

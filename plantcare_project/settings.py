@@ -25,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'phuchoang'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get('DEBUG', default=1))
+# DEBUG = int(os.environ.get('DEBUG', default=0))
+DEBUG = True
 
 
 ALLOWED_HOSTS = ["*"]
@@ -100,8 +101,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'Phuchoang21082001@',
-        'HOST': 'localhost',
+        'PASSWORD': 'postgre',
+        'HOST': 'db',
         'PORT': 5432
     }
 }
@@ -182,5 +183,5 @@ ACCOUNT_USERNAME_REQUIRED = False # new
 ACCOUNT_AUTHENTICATION_METHOD = 'email' # new
 ACCOUNT_EMAIL_REQUIRED = True # new
 ACCOUNT_UNIQUE_EMAIL = True # new
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media_2024') # media directory in the root directory
-MEDIA_URL = '/media_2024/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_motifsampler') # media directory in the root directory
+MEDIA_URL = '/media_motifsampler/'

@@ -9,12 +9,12 @@
 
 <div class="result_sequences">
   <h3>fragment_results</h3>
-  <p class="display_result_motif">{{fragment|safe }}</p>
+  <p class="display_result_motif">{{history_detail.Belong_history_search_care.F_r|safe }}</p>
   
   <h3>Motif found in sequence to submit</h3>
 
   
-  {% for i in motif_found %}
+  {% for i in Ms %}
     <p><a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>: <span class="highlight" style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;">{{ i.sq }}</span></p>
   {% endfor %}
 
@@ -22,7 +22,7 @@
   {% comment %} <p>{{ motif_found }}</p> {% endcomment %}
 
   <h3>reverse_fragment_results</h3>
-  <p class="display_result_motif">{{reverse_fragment|safe }}</p>
+  <p class="display_result_motif">{{history_detail.Belong_history_search_care.R_f_r|safe }}</p>
 
   <!-- {% for factor in motif_found %}
       <p><a href="{{ searchforcare.get_absolute_url }}">{{factor}}</a></p>
@@ -32,7 +32,7 @@
       <p>DT: {{ factor.dt }}</p>
       <p>RD: {{ factor.rd }}</p>  --> 
   <h3>Motif found in sequence_reverse to submit</h3>
-  {% for i in reverse_motif_found %}
+  {% for i in Ms_r %}
     <p><a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>: <span class="highlight" style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;">{{ i.sq }}</span></p>
   {% endfor %}
   {% comment %} <p>{{ reverse_motif_found }}</p> {% endcomment %}
@@ -40,5 +40,3 @@
 </div>
 
 {% endblock content %}
-
-href="{% url 'Detail_ac' pk=i.id %}

@@ -5,6 +5,13 @@
 
 
 {% block content %}
-  <h1>Result</h1>
-  <p>{{command}}</p>
+  <h2>Result MotifSampler</h2>
+
+  <div class="search_results">
+
+    {% for i in command %}
+    <p>{{i}}</p>
+    {% endfor  %}
+  </div>
+  <!-- {{command}} -->
 {% endblock content %}

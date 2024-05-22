@@ -1,5 +1,7 @@
 h1 {
-  color: rgb(134, 224, 187);
+  color: rgb(71, 189, 124);
+  margin-left: 20px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   }
 
   
@@ -36,11 +38,134 @@ h3 {
 }
 
 table {
-  background-color: aqua;
+  text-decoration: none !important;
+  table-layout: fixed;
+  page-break-inside: avoid;
+  text-align: center !important;
+  width: 90%;
+}
+
+
+a {
+  text-decoration: none !important;
+}
+
+th.page {
+  width: 75%;
+}
+
+th.viewon, th.delete {
+  width: 15%;
+}
+
+.image_logo {
+  height: 110px;
+  width: auto;
+  margin-bottom: 0%;
+}
+
+.my-2.my-md-0.mr-md-3 {
+  text-align:center;
+  width: 100%;
+  font-size: 25px;
+  text-decoration: none !important;
+}
+
+.d-flex.flex-column.flex-md-row.align-items-center.p-3.px-md-4.mb-3.bg-green.border-bottom.shadow-sm {
+  text-align:center;
+  background-color: aliceblue;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 22px;
+}
+
+
+
+.btn.btn-outline-primary {
+  text-align: right;
+  width: 100px;
+  margin-left: 10px;
+}
+
+.text-wrap {
   overflow-wrap: anywhere;
 }
 
-table.table > td.sequence {
-  background-color: crimson;
+.navbar-brand.my-0.mr-md-auto.font-weight-normal {
+  color: green;
+  font-size: 28px;
+  margin-left: 10px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+.user-history {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.container_home {
+  width: 90%;
+  margin: 0%;
+}
+
+.history {
+  width: 90%;
+  margin-left: 30px;
+}
+
+h2 {
+  margin-left: 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  font-size: 40px;
+  color: rgb(71, 189, 124);
+}
+
+.about {
+  margin-left: 40px;
+  width: 100%;
+  text-align: left;
+}
+.result_sequences, .factor-ac {
+  margin-left: 50px;
+}
+
+.search_results {
+  margin-left: 100px;
+}
+
+.container-logout{
+  text-align: center;
+  margin-top: 100px;
+}
+
+.logout {
+  font-size: 50px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  color: rgb(71, 189, 124);
+
+}
+
+.cofirm_logout {
+  font-size: 30px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.hompage {
+  margin-left: 30px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.btn.btn-outline-primary {
+  width: 120px;
+}
+
+.signup {
+  margin-left: 40px;
+}
+
+.login {
+  margin-left: 40px;
+}

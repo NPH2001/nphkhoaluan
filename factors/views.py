@@ -3,8 +3,37 @@ from django.views.generic import ListView, DetailView
 from .models import Factor
 
 from history.mixins import ObjectViewMixin
+import json
+from django.http import HttpResponse
+import random
 
+def random_color():
+  # Tạo các giá trị ngẫu nhiên cho R, G, B
+  r = random.randint(0, 255)
+  g = random.randint(0, 255)
+  b = random.randint(0, 255)
+  # Trả về màu dưới dạng mã hex
+  return '#{:02x}{:02x}{:02x}'.format(r, g, b)
 
+def load(request):
+  if request.method == 'GET':
+    with open('db.json', 'r') as file:
+        a = json.load(file)
+    for i in a :
+      Factor.objects.create(ac=i['fields']['ac'],
+                            dt=i['fields']['dt'],
+                            de=i['fields']['de'],
+                            kw=i['fields']['kw'],
+                            os=i['fields']['os'],
+                            ra=i['fields']['ra'],
+                            rt=i['fields']['rt'],
+                            rl=i['fields']['rl'],
+                            rc=i['fields']['rc'],
+                            rd=i['fields']['rd'],
+                            sq=i['fields']['sq'],
+                            color = random_color()
+                            )
+    return HttpResponse("Nạp dữ liệu thành công", status=200)
 
 class FactorListView(ListView):
   model = Factor
@@ -72,15 +101,17 @@ class SearchResultsListView(ObjectViewMixin, ListView): # new
           query = 'sequence: ' + value
             
 
-        # Lấy thông tin tìm kiếm từ request
+      # Lấy thông tin tìm kiếm từ request
       user = request.user if request.user.is_authenticated else None  # Lấy thông tin người dùng
       if query is not None:
-        self.record_search_history(query, user)
+        self.record_search_history(query, user,value_query_filter)
       return super().dispatch(request, *args, **kwargs)
   
   def get_queryset(self):
      query_filters = self.get_query_params()
-     return Factor.objects.filter(**query_filters)
+     factor_list = Factor.objects.filter(**query_filters)
+     print('factor_list:',factor_list)
+     return factor_list
   
 # contains: Phân biệt chữ hoa và chữ thường
 # icontains: không phân biệt chữ hoa và chữ thường
