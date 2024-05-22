@@ -38,14 +38,24 @@ h3 {
   background-color: lightgreen;
 }
 
+td, th {
+  padding: 10px;
+  color: black;
+  border: black;
+}
+
 table {
   text-decoration: none !important;
   table-layout: fixed;
   page-break-inside: avoid;
   text-align: center !important;
   width: 90%;
+  border: black;
 }
 
+/* table.table_biologist {
+  background-color: #CAE6DC !important;
+} */
 
 a {
   text-decoration: none !important;
@@ -75,6 +85,8 @@ th.viewon, th.delete {
 .d-flex.flex-column.flex-md-row.align-items-center.p-3.px-md-4.mb-3.bg-green.border-bottom.shadow-sm {
   text-align:center;
   background-color: aliceblue;
+  margin-bottom: 0% !important;
+  padding: 0% !important;
 
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 22px;
@@ -109,8 +121,10 @@ th.viewon, th.delete {
 }
 
 .container_home {
-  width: 90%;
+  width: 100%;
+  background-color: #CAE6DC;
   margin: 0%;
+  padding: 0%;
 }
 
 .history {
@@ -180,4 +194,53 @@ h2 {
 
 .biologist_create {
   margin-left: 80px;
+}
+
+.column {
+  float: left;
+  width: 50%;
+
+}
+
+
+
+.column_image {
+  float: left;
+  width: 700px;
+  height: auto;
+  margin-left: 50px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.row1 {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.about_home_function {
+  margin-top: 20px;
+  margin-left: 50px;
+  font-size: 30px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.home_crequest {
+  width: 100% !important;
+}
+
+body {
+  background-color: #CAE6DC;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
+
+p.display_result_motif {
+  /* overflow-wrap: break-word; */
+  width: 90%;
+  display: block;
 }

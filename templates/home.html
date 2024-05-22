@@ -6,18 +6,80 @@
 
 
 {% block content %}
-<h1>Homepage</h1>
 
 <!-- <img class="bookcover" src="{% static '' %}"> -->
-<div class="hompage">
 
-    {% if user.is_authenticated %}
-        Hi {{ user.email }}!
-        <p><a href="{% url 'account_logout' %}">Log Out</a></p>
-    {% else %}
-        <p>You are not logged in</p>
-        <a href="{% url 'account_login' %}">Log In</a>
-        <a href="{% url 'account_signup' %}">Sign Up</a>
-    {% endif %}
+<div class="home_crequest">
+
+    <div class="row">
+    
+        <div class="row1">
+            <div class="column">
+                    <p class="about_home_function">The QueryCARE function is accessible to any user.
+                         QueryCARE allows users to search information about motifs in the database.
+                    </p>
+            </div>
+            <div class="column">
+                <img class="column_image" src="{% static '/images/querycare.png' %}">
+            </div>
+        </div>
+        
+        <div class="row1">
+            <div class="column">
+                <img  class="column_image" src="{% static '/images/searchforcare.png' %}">
+            </div>
+            <div class="column">
+                    <p class="about_home_function">Any user can access the SeachForCARE function. SeachForCARE allows users to search within the database.
+                    </p>
+            </div>
+        </div>
+        <div class="row1">
+            <div class="column">
+                    <p class="about_home_function">Any user can access the MotifSampler function. MotifSampler 
+                        is a function that discovers new motifs based on the MotifSampler algorithm..
+                    </p>
+            </div>
+            <div class="column">
+                <img class="column_image" src="{% static '/images/motifsampler.png' %}">
+            </div>
+        </div>
+        
+        <div class="row1">
+            <div class="column">
+                <img  class="column_image" src="{% static '/images/history.png' %}">
+            </div>
+            <div class="column">
+                    <p class="about_home_function">Only users who have logged in to the system have the function to review history and of 
+                        course search history is only saved when you are logged in.
+                    </p>
+            </div>
+        </div>
+        <div class="row1">
+            <div class="column">
+                    <p class="about_home_function">The Biologist function is a special function for biologists. This functionality allows biologists to validate and populate motifs generated from the MotifSampler tool. 
+                        Since then, the database has become increasingly rich and highly accurate.
+                    </p>
+            </div>
+            <div class="column">
+                <img class="column_image" src="{% static '/images/biologist.png' %}">
+            </div>
+        </div>
+        
+    </div>
+    
+    
+    
+    <div class="hompage">
+    
+        {% if user.is_authenticated %}
+            Hi {{ user.email }}!
+            <p><a href="{% url 'account_logout' %}">Log Out</a></p>
+        {% else %}
+            <p>You are not logged in</p>
+            <a href="{% url 'account_login' %}">Log In</a>
+            <a href="{% url 'account_signup' %}">Sign Up</a>
+        {% endif %}
+    </div>
 </div>
+
 {% endblock content %}
