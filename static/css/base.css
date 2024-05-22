@@ -1,7 +1,7 @@
 h1 {
   color: rgb(71, 189, 124);
   margin-left: 20px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, serif;
 
   }
 
@@ -73,6 +73,7 @@ th.viewon, th.delete {
   height: 110px;
   width: auto;
   margin-bottom: 0%;
+  margin-top: 5px;
 }
 
 .my-2.my-md-0.mr-md-3 {
@@ -88,7 +89,7 @@ th.viewon, th.delete {
   margin-bottom: 0% !important;
   padding: 0% !important;
 
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 22px;
 
 }
@@ -109,7 +110,7 @@ th.viewon, th.delete {
   color: green;
   font-size: 28px;
   margin-left: 10px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, serif;
 
 }
 
@@ -165,7 +166,7 @@ h2 {
 
 .logout {
   font-size: 50px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, serif;
   color: rgb(71, 189, 124);
 
 }
@@ -177,7 +178,7 @@ h2 {
 
 .hompage {
   margin-left: 30px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .btn.btn-outline-primary {
@@ -226,7 +227,7 @@ h2 {
   margin-top: 20px;
   margin-left: 50px;
   font-size: 30px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .home_crequest {
@@ -235,7 +236,7 @@ h2 {
 
 body {
   background-color: #CAE6DC;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Times New Roman', Times, serif;
 
 }
 
