@@ -45,6 +45,29 @@ class SearchMotif(ObjectViewMixin, ListView):
   def colored(r, g, b, text):
     return f"\033[38;2;{r};{g};{b}m{text}\033[0m"
   
+  def iupac_to_regex(self, substring):
+     iupac_codes = {
+        'R': '[AG]',
+        'Y': '[CT]',
+        'S': '[GC]',
+        'W': '[AT]',
+        'K': '[GT]',
+        'M': '[AC]',
+        'B': '[CGT]',
+        'D': '[AGT]',
+        'H': '[ACT]',
+        'V': '[ACG]',
+        'N': '[ACGT]'
+     }
+     pattern = ''
+     for char in substring:
+        if char in iupac_codes:
+           pattern += iupac_codes[char]
+        else:
+           pattern += char
+    
+     return pattern
+  
   def find_sequence_in_database(self, fragment_dna, database):
     found_sequences = []
     start = 0
@@ -107,8 +130,9 @@ class SearchMotif(ObjectViewMixin, ListView):
 
     # Duyệt qua từng phần tử trong vcc_list
     for factor in vcc_list:
+        pattern = self.iupac_to_regex(factor.sq)
         # Kiểm tra xem giá trị của thuộc tính sq có tồn tại trong chuỗi vcc không
-        matches = re.finditer(re.escape(factor.sq), vcc)
+        matches = re.finditer(pattern, vcc)
         
         # Tạo danh sách tạm thời để lưu trữ các vị trí của các cụm từ được tìm thấy
         positions = []
