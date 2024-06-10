@@ -11,18 +11,29 @@
   <h3>fragment_results</h3>
   <p class="display_result_motif">{{fragment|safe }}</p>
   
-  <h3>Motif found in sequence to submit</h3>
+  <h3>reverse_fragment_results</h3>
+  <p class="display_result_motif">{{reverse_fragment|safe }}</p>
 
+  <div class="row">
+    <div class="column">
+      <h3>Motif found in sequence to submit</h3>
+      {% for i in motif_found %}
+        <p><a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>: <span class="highlight" style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;">{{ i.sq }}</span></p>
+      {% endfor %}
+    </div>
+    <div class="column">
+      <h3>Motif found in sequence_reverse to submit</h3>
+      {% for i in reverse_motif_found %}
+        <p><a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>: <span class="highlight" style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;">{{ i.sq }}</span></p>
+      {% endfor %}
+    </div>
+  </div>
   
-  {% for i in motif_found %}
-    <p><a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>: <span class="highlight" style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;">{{ i.sq }}</span></p>
-  {% endfor %}
+  
 
 
   {% comment %} <p>{{ motif_found }}</p> {% endcomment %}
 
-  <h3>reverse_fragment_results</h3>
-  <p class="display_result_motif">{{reverse_fragment|safe }}</p>
 
   <!-- {% for factor in motif_found %}
       <p><a href="{{ searchforcare.get_absolute_url }}">{{factor}}</a></p>
@@ -31,10 +42,6 @@
       <p>AC: {{ factor.ac }}</p>
       <p>DT: {{ factor.dt }}</p>
       <p>RD: {{ factor.rd }}</p>  --> 
-  <h3>Motif found in sequence_reverse to submit</h3>
-  {% for i in reverse_motif_found %}
-    <p><a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>: <span class="highlight" style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;">{{ i.sq }}</span></p>
-  {% endfor %}
   {% comment %} <p>{{ reverse_motif_found }}</p> {% endcomment %}
 
 </div>
