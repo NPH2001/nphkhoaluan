@@ -91,33 +91,33 @@ class SearchMotif(ObjectViewMixin, ListView):
         )
         return seq.upper()[::-1]
 
-    def foundsequences(self, found_sequences, fragment):
-        colored_sequence = ""
-        sequence_color = ""
-        last_end = 0
-        if found_sequences:
-            found_sequences.sort(key=lambda x: x[2])  # Sort sequences by start position
-            # print(found_sequences)
-            for sequence, _, start, end in found_sequences:
-                x = random.randrange(254)
-                y = random.randrange(254)
-                z = random.randrange(254)
-                if start >= last_end:  # Ensure no overlap
-                    colored_sequence += fragment[
-                        last_end:start
-                    ]  # Append non-matching portion
-                    colored_sequence += f'<span class="highlight" style="background-color: rgb({x}, {y}, {z});">{(fragment[start:end])}</span>'  # Color matching portion
-                    # colored_sequence += self.colored( x, y, fragment[start:end])
-                    last_end = end
-                    sequence_color += f'<span class="highlight" style="background-color: rgb({x}, {y}, {z});">{(fragment[start:end])}</span>'
-                elif end > last_end:  # Handle overlap
-                    colored_sequence += f'<span class="highlight" style="background-color: rgb({x}, {y}, {z});">{(fragment[start:end])}</span>'  # Color overlapping portion
-                    last_end = end
-                    sequence_color += f'<span class="highlight" style="background-color: rgb({x}, {y}, {z});">{(fragment[start:end])}</span>'
-        colored_sequence += fragment[
-            last_end:
-        ]  # Append the remaining portion of the sequence
-        return colored_sequence
+    # def foundsequences(self, found_sequences, fragment):
+    #     colored_sequence = ""
+    #     sequence_color = ""
+    #     last_end = 0
+    #     if found_sequences:
+    #         found_sequences.sort(key=lambda x: x[2])  # Sort sequences by start position
+    #         # print(found_sequences)
+    #         for sequence, _, start, end in found_sequences:
+    #             x = random.randrange(254)
+    #             y = random.randrange(254)
+    #             z = random.randrange(254)
+    #             if start >= last_end:  # Ensure no overlap
+    #                 colored_sequence += fragment[
+    #                     last_end:start
+    #                 ]  # Append non-matching portion
+    #                 colored_sequence += f'<span class="highlight" style="background-color: rgb({x}, {y}, {z});">{(fragment[start:end])}</span>'  # Color matching portion
+    #                 # colored_sequence += self.colored( x, y, fragment[start:end])
+    #                 last_end = end
+    #                 sequence_color += f'<span class="highlight" style="background-color: rgb({x}, {y}, {z});">{(fragment[start:end])}</span>'
+    #             elif end > last_end:  # Handle overlap
+    #                 colored_sequence += f'<span class="highlight" style="background-color: rgb({x}, {y}, {z});">{(fragment[start:end])}</span>'  # Color overlapping portion
+    #                 last_end = end
+    #                 sequence_color += f'<span class="highlight" style="background-color: rgb({x}, {y}, {z});">{(fragment[start:end])}</span>'
+    #     colored_sequence += fragment[
+    #         last_end:
+    #     ]  # Append the remaining portion of the sequence
+    #     return colored_sequence
 
     def fill_color(self, fragment):
         # Chuỗi cần xử lý
@@ -162,8 +162,9 @@ class SearchMotif(ObjectViewMixin, ListView):
 
             # Thêm các thẻ <span> vào danh sách tạm thời
             for start, end in positions:
-                span = f'<span style="background-color: {factor.color}; color:white;">{vcc[start:end]}</span>'
-                span_list.append((start, end, span))
+              for i in range(start, end):
+                span = f'<span style="background-color: {factor.color}; color:white;">{vcc[i]}</span>'
+                span_list.append((i, span))
 
             # Thêm phần tử tương ứng vào list_factor
             if positions:
@@ -171,15 +172,31 @@ class SearchMotif(ObjectViewMixin, ListView):
 
         # Sắp xếp lại danh sách các thẻ <span> theo vị trí bắt đầu (tăng dần)
         span_list = sorted(span_list, key=lambda x: x[0])
+        # print("span_list:", span_list)
 
         # Thêm các thẻ <span> vào chuỗi vcc
         offset = 0
-        for start, end, span in span_list:
-            vcc = vcc[: start + offset] + span + vcc[end + offset :]
-            offset += len(span) - (end - start)
+        # for start, end, span in span_list:
+        #     vcc = vcc[: start + offset] + span + vcc[end + offset :]
+        #     offset += len(span) - (end - start)
+        
+        vcc_with_spans = []
+        last_index = 0
+        for index, span in span_list:
+            for i in range(last_index, index):
+                vcc_with_spans.append(vcc[i])
+            # vcc_with_spans.append(vcc[last_index:index])
+            vcc_with_spans.append(span)
+            last_index = index + 1
+        for i in range(last_index, len(vcc)):
+          vcc_with_spans.append(vcc[i])
+            
+        # vcc_with_spans.append(vcc[last_index:])
+        print("vcc_with_spans:", vcc_with_spans)
+        vcc = "".join(vcc_with_spans)
 
-        print("list_factor:", list_factor)
-        print("vcc:", vcc)
+        # print("list_factor:", list_factor)
+        # print("vcc:", vcc)
         data = {}
         data["text_fill"] = vcc
         data["list_factor"] = list_factor

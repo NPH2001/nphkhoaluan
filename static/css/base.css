@@ -249,3 +249,28 @@ p.display_result_motif {
   width: 90%;
   display: block;
 }
+
+.dna-container {
+  display: flex;
+  justify-content: center; /* căn giữa theo chiều ngang */
+  align-items: center; /* căn giữa theo chiều dọc */
+  flex-direction: column;
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: large;
+}
+
+.dna-line {
+  display: inline-block;
+  text-align: left;
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: center; /* căn giữa theo chiều ngang */
+  align-items: center; /* căn giữa theo chiều dọc */
+  flex-direction: column;
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: large;
+}

@@ -1,39 +1,53 @@
-{% extends '_base.html' %}
-{% load static %}
-
-{% block title %}Search For CARE{% endblock title %}
-
-
-{% block content %}
+{% extends '_base.html' %} {% load static %} {% block title %}Search For
+CARE{%endblock title %} {% block content %}
 <h2>Result Search For CARE</h2>
+<div class="checkbox-container">
+  <label>
+    <input type="checkbox" id="toggle-reverse" /> Show Reverse Sequence
+  </label>
+</div>
 
 <div class="result_sequences">
-  <h3>fragment_results</h3>
-  <p class="display_result_motif">{{fragment|safe }}</p>
-  
-  <h3>reverse_fragment_results</h3>
-  <p class="display_result_motif">{{reverse_fragment|safe }}</p>
+  <h3>Fragment result:</h3>
+  <div id="dna-output" class="dna-container"></div>
+
+  <div class="reverse-dna-container" style="display: none">
+    <h3>reverse_fragment_results</h3>
+    <div id="reverse-dna-output" class="dna-container"></div>
+  </div>
 
   <div class="row">
     <div class="column">
       <h3>Motif found in sequence to submit</h3>
       {% for i in motif_found %}
-        <p><a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>: <span class="highlight" style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;">{{ i.sq }}</span></p>
+      <p>
+        <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
+        <span
+          class="highlight"
+          style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
+          >{{ i.sq }}</span
+        >
+      </p>
       {% endfor %}
     </div>
-    <div class="column">
+    <div class="column reverse-dna-container" style="display: none">
       <h3>Motif found in sequence_reverse to submit</h3>
       {% for i in reverse_motif_found %}
-        <p><a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>: <span class="highlight" style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;">{{ i.sq }}</span></p>
+      <p>
+        <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
+        <span
+          class="highlight"
+          style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
+          >{{ i.sq }}</span
+        >
+      </p>
       {% endfor %}
     </div>
   </div>
-  
-  
 
-
-  {% comment %} <p>{{ motif_found }}</p> {% endcomment %}
-
+  {% comment %}
+  <p>{{ motif_found }}</p>
+  {% endcomment %}
 
   <!-- {% for factor in motif_found %}
       <p><a href="{{ searchforcare.get_absolute_url }}">{{factor}}</a></p>
@@ -41,11 +55,88 @@
       <h3><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h3>
       <p>AC: {{ factor.ac }}</p>
       <p>DT: {{ factor.dt }}</p>
-      <p>RD: {{ factor.rd }}</p>  --> 
-  {% comment %} <p>{{ reverse_motif_found }}</p> {% endcomment %}
-
+      <p>RD: {{ factor.rd }}</p>  -->
+  {% comment %}
+  <p>{{ reverse_motif_found }}</p>
+  {% endcomment %}
 </div>
 
-{% endblock content %}
+<script>
+  function convertDnaStringToList(dna) {
+    // Tạo một phần tử tạm để chứa chuỗi DNA
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = dna;
 
-href="{% url 'Detail_ac' pk=i.id %}
+    // Mảng để chứa các phần tử
+    const dnaList = [];
+
+    // Duyệt qua các con của phần tử tạm
+    Array.from(tempDiv.childNodes).forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        // Nếu là text node, thêm từng ký tự vào danh sách
+        dnaList.push(...node.textContent.split(""));
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Nếu là element node, thêm toàn bộ thẻ vào danh sách
+        dnaList.push(node.outerHTML);
+      }
+    });
+
+    return dnaList;
+  }
+  function formatDnaSequence(dna) {
+    let formattedSequence = "";
+    const chunkSize = 10;
+    const lineSize = 7;
+    let i = 0;
+    console.log(dna);
+    console.log(typeof dna);
+
+    while (i < dna.length) {
+      let lineChunks = [];
+      for (let j = 0; j < lineSize && i < dna.length; j++) {
+        // lineChunks.push(dna.substr(i, chunkSize));
+        // i += chunkSize;
+        let chunk = dna.slice(i, i + chunkSize).join("");
+        lineChunks.push(chunk);
+        i += chunkSize;
+      }
+      formattedSequence +=
+        '<div class="dna-line">' +
+        lineChunks.join("&nbsp;") +
+        "</div><br><br><br>";
+    }
+
+    return formattedSequence;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const dnaSequence = "{{ fragment|escapejs }}";
+    const reverseDnaSequence = "{{ reverse_fragment|escapejs }}";
+
+    const dnaList = convertDnaStringToList(dnaSequence);
+    const reverseDnaList = convertDnaStringToList(reverseDnaSequence);
+
+    const formattedDna = formatDnaSequence(dnaList);
+    const formattedReverseDna = formatDnaSequence(reverseDnaList);
+
+    document.getElementById("dna-output").innerHTML = formattedDna;
+    document.getElementById("reverse-dna-output").innerHTML =
+      formattedReverseDna;
+
+    const toggleReverseCheckbox = document.getElementById("toggle-reverse");
+    const reverseDnaContainer = document.querySelector(
+      ".reverse-dna-container"
+    );
+
+    toggleReverseCheckbox.addEventListener("change", function () {
+      console.log("change");
+      if (this.checked) {
+        reverseDnaContainer.style.display = "contents";
+      } else {
+        reverseDnaContainer.style.display = "none";
+      }
+    });
+  });
+</script>
+
+{% endblock content %} href="{% url 'Detail_ac' pk=i.id %}
