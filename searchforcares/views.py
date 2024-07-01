@@ -11,6 +11,9 @@ from history.signals import object_viewed_signal
 import re
 import random
 
+import csv
+from django.http import HttpResponse
+
 from history.models import *
 
 sequence_color = ""
@@ -263,3 +266,27 @@ class SearchMotif(ObjectViewMixin, ListView):
         )  # Lấy thông tin người dùng
         self.record_search_history(query, user, "")
         return super().dispatch(request, *args, **kwargs)
+      
+    def export_csv_by_current_result(request):
+      new_history = History.objects.order_by('-created_at')[0]
+      factors = new_history.Belong_history_search_care.Ms.all()
+      response = HttpResponse(content_type='text/csv')
+      response['Content-Disposition'] = 'attachment; filename="result.csv"'
+      writer = csv.writer(response)
+      writer.writerow(['ac', 'dt', 'de', 'kw', 'os', 'ra', 'rt', 'rl', 'rd', 'sq'])
+      for factor in factors:
+          writer.writerow([factor.ac, factor.dt, factor.de, factor.kw, factor.os, factor.ra, factor.rt, factor.rl, factor.rd, factor.sq])
+      
+      return response
+    
+    def export_csv_by_current_rev_result(request):
+      new_history = History.objects.order_by('-created_at')[0]
+      factors = new_history.Belong_history_search_care.Ms_r.all()
+      response = HttpResponse(content_type='text/csv')
+      response['Content-Disposition'] = 'attachment; filename="result_rev.csv"'
+      writer = csv.writer(response)
+      writer.writerow(['ac', 'dt', 'de', 'kw', 'os', 'ra', 'rt', 'rl', 'rd', 'sq'])
+      for factor in factors:
+          writer.writerow([factor.ac, factor.dt, factor.de, factor.kw, factor.os, factor.ra, factor.rt, factor.rl, factor.rd, factor.sq])
+      
+      return response

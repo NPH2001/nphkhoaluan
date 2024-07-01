@@ -19,6 +19,14 @@ CARE{%endblock title %} {% block content %}
   <div class="row">
     <div class="column">
       <h3>Motif found in sequence to submit</h3>
+      <button id="export-csv-button">Export CSV</button>
+      <form
+        id="export-csv-form"
+        action="{% url 'export_csv' %}"
+        method="get"
+        style="display: none"
+      >
+      </form>
       {% for i in motif_found %}
       <p>
         <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
@@ -30,8 +38,16 @@ CARE{%endblock title %} {% block content %}
       </p>
       {% endfor %}
     </div>
-    <div class="column reverse-dna-container" style="display: none">
+    <div class="column" id="result-reverse" style="display: none">
       <h3>Motif found in sequence_reverse to submit</h3>
+      <button id="export-rev-csv-button">Export CSV</button>
+      <form
+        id="export-rev-csv-form"
+        action="{% url 'export_rev_csv' %}"
+        method="get"
+        style="display: none"
+      >
+      </form>
       {% for i in reverse_motif_found %}
       <p>
         <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
@@ -127,16 +143,31 @@ CARE{%endblock title %} {% block content %}
     const reverseDnaContainer = document.querySelector(
       ".reverse-dna-container"
     );
+    const reverseResultContainer = document.getElementById("result-reverse");
 
     toggleReverseCheckbox.addEventListener("change", function () {
       console.log("change");
       if (this.checked) {
         reverseDnaContainer.style.display = "contents";
+        reverseResultContainer.style.display = "block";
       } else {
         reverseDnaContainer.style.display = "none";
+        reverseResultContainer.style.display = "none";
       }
     });
   });
+
+  document
+    .getElementById("export-csv-button")
+    .addEventListener("click", function () {
+      document.getElementById("export-csv-form").submit();
+    });
+
+  document
+    .getElementById("export-rev-csv-button")
+    .addEventListener("click", function () {
+      document.getElementById("export-rev-csv-form").submit();
+    });
 </script>
 
 {% endblock content %} href="{% url 'Detail_ac' pk=i.id %}
