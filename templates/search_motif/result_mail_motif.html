@@ -1,0 +1,124 @@
+{% extends '_base.html' %} {% load static %} {% block title %}Search For
+CARE{%endblock title %} {% block content %}
+<h2>Result Search For CARE</h2>
+<div class="checkbox-container">
+  <label>
+    <input type="checkbox" id="toggle-reverse" /> Show Reverse Sequence
+  </label>
+</div>
+
+<div class="result_sequences">
+  <h3>Fragment result:</h3>
+  <div id="dna-output" class="dna-container"></div>
+
+  <div class="reverse-dna-container" style="display: none">
+    <h3>reverse_fragment_results</h3>
+    <div id="reverse-dna-output" class="dna-container"></div>
+  </div>
+
+  <div class="row">
+    <div class="column">
+      <h3>Motif found in sequence to submit</h3>
+      </form>
+      {% for i in motif_found %}
+      <p>
+        <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
+        <span
+          class="highlight"
+          style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
+          >{{ i.sq }}</span
+        >
+      </p>
+      {% endfor %}
+    </div>
+    <div class="column" id="result-reverse" style="display: none">
+      <h3>Motif found in sequence_reverse to submit</h3>
+      {% for i in reverse_motif_found %}
+      <p>
+        <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
+        <span
+          class="highlight"
+          style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
+          >{{ i.sq }}</span
+        >
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  function convertDnaStringToList(dna) {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = dna;
+
+    const dnaList = [];
+
+    Array.from(tempDiv.childNodes).forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        dnaList.push(...node.textContent.split(""));
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        dnaList.push(node.outerHTML);
+      }
+    });
+
+    return dnaList;
+  }
+  function formatDnaSequence(dna) {
+    let formattedSequence = "";
+    const chunkSize = 10;
+    const lineSize = 7;
+    let i = 0;
+    console.log(dna);
+    console.log(typeof dna);
+
+    while (i < dna.length) {
+      let lineChunks = [];
+      for (let j = 0; j < lineSize && i < dna.length; j++) {
+        let chunk = dna.slice(i, i + chunkSize).join("");
+        lineChunks.push(chunk);
+        i += chunkSize;
+      }
+      formattedSequence +=
+        '<div class="dna-line">' +
+        lineChunks.join("&nbsp;") +
+        "</div><br><br><br>";
+    }
+
+    return formattedSequence;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const dnaSequence = "{{ fragment|escapejs }}";
+    const reverseDnaSequence = "{{ reverse_fragment|escapejs }}";
+
+    const dnaList = convertDnaStringToList(dnaSequence);
+    const reverseDnaList = convertDnaStringToList(reverseDnaSequence);
+
+    const formattedDna = formatDnaSequence(dnaList);
+    const formattedReverseDna = formatDnaSequence(reverseDnaList);
+
+    document.getElementById("dna-output").innerHTML = formattedDna;
+    document.getElementById("reverse-dna-output").innerHTML =
+      formattedReverseDna;
+
+    const toggleReverseCheckbox = document.getElementById("toggle-reverse");
+    const reverseDnaContainer = document.querySelector(
+      ".reverse-dna-container"
+    );
+    const reverseResultContainer = document.getElementById("result-reverse");
+
+    toggleReverseCheckbox.addEventListener("change", function () {
+      console.log("change");
+      if (this.checked) {
+        reverseDnaContainer.style.display = "contents";
+        reverseResultContainer.style.display = "block";
+      } else {
+        reverseDnaContainer.style.display = "none";
+        reverseResultContainer.style.display = "none";
+      }
+    });
+  });
+</script>
+
+{% endblock content %} href="{% url 'Detail_ac' pk=i.id %}

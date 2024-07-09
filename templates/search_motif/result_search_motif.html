@@ -1,4 +1,5 @@
-{% extends '_base.html' %} {% load static %} {% block title %}Search For
+{% extends '_base.html' %} {% load static %} 
+{% block title %}Search For
 CARE{%endblock title %} {% block content %}
 <h2>Result Search For CARE</h2>
 <div class="checkbox-container">
@@ -8,15 +9,11 @@ CARE{%endblock title %} {% block content %}
 </div>
 
 <div class="result_sequences">
-  <h3>Fragment result:</h3>
-  <div id="dna-output" class="dna-container"></div>
-
-  <div class="reverse-dna-container" style="display: none">
-    <h3>reverse_fragment_results</h3>
-    <div id="reverse-dna-output" class="dna-container"></div>
-  </div>
-
-  <div class="row">
+  <div class="result-seq-container">
+    <div class="result-seq">
+      <h3>Fragment result:</h3>
+      <div id="dna-output" class="dna-container"></div>
+    </div>
     <div class="column">
       <h3>Motif found in sequence to submit</h3>
       <button id="export-csv-button">Export CSV</button>
@@ -25,19 +22,33 @@ CARE{%endblock title %} {% block content %}
         action="{% url 'export_csv' %}"
         method="get"
         style="display: none"
-      >
-      </form>
+      ></form>
       {% for i in motif_found %}
       <p>
-        <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
+        <a href="#" class="motif-link" data-seq="{{ i.sq }}">{{ i.ac }}</a>:
         <span
-          class="highlight"
+          class="highlight motif"
+          data-id="{{ i.sq }}"
           style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
           >{{ i.sq }}</span
         >
+        <div class="motif-details" id="details-{{ i.sq }}" style="display: none;">
+          <p>Short description: {{ i.de }}</p>
+          <p>Organism: {{ i.os }}</p>
+        </div>
       </p>
       {% endfor %}
     </div>
+  </div>
+</div>
+
+<div class="result_sequences">
+  <div class="result-seq-container">
+    <div class="reverse-dna-container result-seq" style="display: none">
+      <h3>Reverse fragment results</h3>
+      <div id="reverse-dna-output" class="dna-container"></div>
+    </div>
+
     <div class="column" id="result-reverse" style="display: none">
       <h3>Motif found in sequence_reverse to submit</h3>
       <button id="export-rev-csv-button">Export CSV</button>
@@ -46,13 +57,13 @@ CARE{%endblock title %} {% block content %}
         action="{% url 'export_rev_csv' %}"
         method="get"
         style="display: none"
-      >
-      </form>
+      ></form>
       {% for i in reverse_motif_found %}
       <p>
-        <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
+        <a href="#" class="motif-link" data-seq="{{ i.sq }}">{{ i.ac }}</a>:
         <span
-          class="highlight"
+          class="highlight motif"
+          data-id="{{ i.sq }}"
           style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
           >{{ i.sq }}</span
         >
@@ -60,69 +71,80 @@ CARE{%endblock title %} {% block content %}
       {% endfor %}
     </div>
   </div>
+</div>
 
-  {% comment %}
-  <p>{{ motif_found }}</p>
-  {% endcomment %}
+{% comment %}
+<p>{{ motif_found }}</p>
+{% endcomment %}
 
-  <!-- {% for factor in motif_found %}
+<!-- {% for factor in motif_found %}
       <p><a href="{{ searchforcare.get_absolute_url }}">{{factor}}</a></p>
   {% endfor %}
       <h3><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h3>
       <p>AC: {{ factor.ac }}</p>
       <p>DT: {{ factor.dt }}</p>
       <p>RD: {{ factor.rd }}</p>  -->
-  {% comment %}
-  <p>{{ reverse_motif_found }}</p>
-  {% endcomment %}
-</div>
+{% comment %}
+<p>{{ reverse_motif_found }}</p>
+{% endcomment %}
 
 <script>
   function convertDnaStringToList(dna) {
-    // Tạo một phần tử tạm để chứa chuỗi DNA
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = dna;
 
-    // Mảng để chứa các phần tử
     const dnaList = [];
 
-    // Duyệt qua các con của phần tử tạm
     Array.from(tempDiv.childNodes).forEach((node) => {
       if (node.nodeType === Node.TEXT_NODE) {
-        // Nếu là text node, thêm từng ký tự vào danh sách
         dnaList.push(...node.textContent.split(""));
       } else if (node.nodeType === Node.ELEMENT_NODE) {
-        // Nếu là element node, thêm toàn bộ thẻ vào danh sách
         dnaList.push(node.outerHTML);
       }
     });
 
     return dnaList;
   }
+
   function formatDnaSequence(dna) {
     let formattedSequence = "";
     const chunkSize = 10;
     const lineSize = 7;
     let i = 0;
-    console.log(dna);
-    console.log(typeof dna);
 
     while (i < dna.length) {
       let lineChunks = [];
       for (let j = 0; j < lineSize && i < dna.length; j++) {
-        // lineChunks.push(dna.substr(i, chunkSize));
-        // i += chunkSize;
         let chunk = dna.slice(i, i + chunkSize).join("");
         lineChunks.push(chunk);
         i += chunkSize;
       }
       formattedSequence +=
-        '<div class="dna-line">' +
-        lineChunks.join("&nbsp;") +
-        "</div><br><br><br>";
+        '<div class="dna-line">' + lineChunks.join("&nbsp;") + "</div>";
     }
 
     return formattedSequence;
+  }
+
+  function toggleHighlight(motifId) {
+    const motifElements = document.querySelectorAll(
+      `.motif[data-id="${motifId}"]`
+    );
+    motifElements.forEach((element) => {
+      element.classList.toggle("active");
+    });
+  }
+
+  function toggleHighlightAndDetails(motifId) {
+    const motifElements = document.querySelectorAll(`.motif[data-id="${motifId}"]`);
+    motifElements.forEach(element => {
+      element.classList.toggle("active");
+    });
+  
+    const detailsElement = document.getElementById(`details-${motifId}`);
+    if (detailsElement) {
+      detailsElement.style.display = detailsElement.style.display === 'none' ? 'block' : 'none';
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -146,7 +168,6 @@ CARE{%endblock title %} {% block content %}
     const reverseResultContainer = document.getElementById("result-reverse");
 
     toggleReverseCheckbox.addEventListener("change", function () {
-      console.log("change");
       if (this.checked) {
         reverseDnaContainer.style.display = "contents";
         reverseResultContainer.style.display = "block";
@@ -155,19 +176,62 @@ CARE{%endblock title %} {% block content %}
         reverseResultContainer.style.display = "none";
       }
     });
+
+    document.querySelectorAll(".motif-link").forEach((link) => {
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+        const motifId = this.dataset.seq;
+        toggleHighlightAndDetails(motifId);
+      });
+    });
+
+    document
+      .getElementById("export-csv-button")
+      .addEventListener("click", function () {
+        document.getElementById("export-csv-form").submit();
+      });
+
+    document
+      .getElementById("export-rev-csv-button")
+      .addEventListener("click", function () {
+        document.getElementById("export-rev-csv-form").submit();
+      });
+
+    document.querySelectorAll(".motif").forEach((motif) => {
+      motif.addEventListener("click", function () {
+        toggleHighlightAndDetails(this.dataset.id);
+      });
+    });
   });
-
-  document
-    .getElementById("export-csv-button")
-    .addEventListener("click", function () {
-      document.getElementById("export-csv-form").submit();
-    });
-
-  document
-    .getElementById("export-rev-csv-button")
-    .addEventListener("click", function () {
-      document.getElementById("export-rev-csv-form").submit();
-    });
 </script>
 
-{% endblock content %} href="{% url 'Detail_ac' pk=i.id %}
+<style>
+  .motif {
+    color: black; /* Màu chữ mặc định */
+    background-color: transparent; /* Mặc định không có màu nền */
+  }
+
+  .motif.active {
+    color: white; /* Màu chữ khi được kích hoạt */
+    background-color: var(--motif-color); /* Màu nền khi được kích hoạt */
+  }
+
+  .result-seq-container {
+    display: flex;
+  }
+
+  .result-seq {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+  }
+
+  .motif-details {
+    margin-top: 10px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+</style>
+
+{% endblock content %}

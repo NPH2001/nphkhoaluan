@@ -23,8 +23,10 @@ from django.shortcuts import render, redirect
 from factors.models import *
 
 import json
+from plantcare_project.settings import EMAIL_HOST_USER
 
 from django.utils.html import escape
+from django.core.mail import send_mail
 
 # bg = Factor.objects.get(pk=1)
 # data = json.loads(bg.color)
@@ -165,9 +167,9 @@ class SearchMotif(ObjectViewMixin, ListView):
 
             # Thêm các thẻ <span> vào danh sách tạm thời
             for start, end in positions:
-              for i in range(start, end):
-                span = f'<span style="background-color: {factor.color}; color:white;">{vcc[i]}</span>'
-                span_list.append((i, span))
+                for i in range(start, end):
+                    span = f'<span data-id="{ factor.sq }" class="motif" style="--motif-color: {factor.color};">{vcc[i]}</span>'
+                    span_list.append((i, span))
 
             # Thêm phần tử tương ứng vào list_factor
             if positions:
@@ -182,7 +184,7 @@ class SearchMotif(ObjectViewMixin, ListView):
         # for start, end, span in span_list:
         #     vcc = vcc[: start + offset] + span + vcc[end + offset :]
         #     offset += len(span) - (end - start)
-        
+
         vcc_with_spans = []
         last_index = 0
         for index, span in span_list:
@@ -192,10 +194,10 @@ class SearchMotif(ObjectViewMixin, ListView):
             vcc_with_spans.append(span)
             last_index = index + 1
         for i in range(last_index, len(vcc)):
-          vcc_with_spans.append(vcc[i])
-            
+            vcc_with_spans.append(vcc[i])
+
         # vcc_with_spans.append(vcc[last_index:])
-        print("vcc_with_spans:", vcc_with_spans)
+        # print("vcc_with_spans:", vcc_with_spans)
         vcc = "".join(vcc_with_spans)
 
         # print("list_factor:", list_factor)
@@ -266,27 +268,71 @@ class SearchMotif(ObjectViewMixin, ListView):
         )  # Lấy thông tin người dùng
         self.record_search_history(query, user, "")
         return super().dispatch(request, *args, **kwargs)
-      
+
     def export_csv_by_current_result(request):
-      new_history = History.objects.order_by('-created_at')[0]
-      factors = new_history.Belong_history_search_care.Ms.all()
-      response = HttpResponse(content_type='text/csv')
-      response['Content-Disposition'] = 'attachment; filename="result.csv"'
-      writer = csv.writer(response)
-      writer.writerow(['ac', 'dt', 'de', 'kw', 'os', 'ra', 'rt', 'rl', 'rd', 'sq'])
-      for factor in factors:
-          writer.writerow([factor.ac, factor.dt, factor.de, factor.kw, factor.os, factor.ra, factor.rt, factor.rl, factor.rd, factor.sq])
-      
-      return response
-    
+        new_history = History.objects.order_by("-created_at")[0]
+        factors = new_history.Belong_history_search_care.Ms.all()
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = 'attachment; filename="result.csv"'
+        
+        writer = csv.writer(response, delimiter='\t')
+        writer.writerow(["ac", "dt", "de", "kw", "os", "ra", "rt", "rl", "rd", "sq"])
+        for factor in factors:
+            writer.writerow(
+                [
+                    factor.ac,
+                    factor.dt,
+                    factor.de,
+                    factor.kw,
+                    factor.os,
+                    factor.ra,
+                    factor.rt,
+                    factor.rl,
+                    factor.rd,
+                    factor.sq,
+                ]
+            )
+
+        return response
+
     def export_csv_by_current_rev_result(request):
-      new_history = History.objects.order_by('-created_at')[0]
-      factors = new_history.Belong_history_search_care.Ms_r.all()
-      response = HttpResponse(content_type='text/csv')
-      response['Content-Disposition'] = 'attachment; filename="result_rev.csv"'
-      writer = csv.writer(response)
-      writer.writerow(['ac', 'dt', 'de', 'kw', 'os', 'ra', 'rt', 'rl', 'rd', 'sq'])
-      for factor in factors:
-          writer.writerow([factor.ac, factor.dt, factor.de, factor.kw, factor.os, factor.ra, factor.rt, factor.rl, factor.rd, factor.sq])
-      
-      return response
+        new_history = History.objects.order_by("-created_at")[0]
+        factors = new_history.Belong_history_search_care.Ms_r.all()
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = 'attachment; filename="result_rev.csv"'
+        writer = csv.writer(response)
+        writer.writerow(["ac", "dt", "de", "kw", "os", "ra", "rt", "rl", "rd", "sq"])
+        for factor in factors:
+            writer.writerow(
+                [
+                    factor.ac,
+                    factor.dt,
+                    factor.de,
+                    factor.kw,
+                    factor.os,
+                    factor.ra,
+                    factor.rt,
+                    factor.rl,
+                    factor.rd,
+                    factor.sq,
+                ]
+            )
+
+        return response
+
+    def send_csv_to_email(request):
+        new_history = History.objects.order_by("-created_at").first()
+        factors = new_history.Belong_history_search_care.Ms.all()
+        csv_data = "ac,dt,de,kw,os,ra,rt,rl,rd,sq\n"
+        for factor in factors:
+            csv_data += f"{factor.ac},{factor.dt},{factor.de},{factor.kw},{factor.os},{factor.ra},{factor.rt},{factor.rl},{factor.rd},{factor.sq}\n"
+
+        send_mail(
+            "CSV Export",
+            "Please find attached the CSV file.",
+            EMAIL_HOST_USER,
+            ["hnpyne11022003@gmail.com"],
+            fail_silently=False,
+        )
+
+        return HttpResponse("Email sent successfully.")

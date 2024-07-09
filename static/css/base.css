@@ -1,17 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap");
 
 h1 {
   color: rgb(71, 189, 124);
   margin-left: 20px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: "Roboto Mono", monospace;
+}
 
-  }
-
-  
 .bookcover {
   height: 500px;
   width: auto;
-  }
+}
 
 h5 {
   color: brown;
@@ -23,11 +21,14 @@ h3 {
 .result_sequences {
   width: 100%;
   overflow-wrap: break-word;
-
 }
 
 .highlight {
-  background-color: rgb(201, 130, 134); /* Change this to the desired highlight color */
+  background-color: rgb(
+    201,
+    130,
+    134
+  ); /* Change this to the desired highlight color */
 }
 
 .type1 {
@@ -40,7 +41,8 @@ h3 {
   background-color: lightgreen;
 }
 
-td, th {
+td,
+th {
   padding: 10px;
   color: black;
   border: black;
@@ -67,7 +69,8 @@ th.page {
   width: 75%;
 }
 
-th.viewon, th.delete {
+th.viewon,
+th.delete {
   width: 15%;
 }
 
@@ -78,24 +81,21 @@ th.viewon, th.delete {
 }
 
 .my-2.my-md-0.mr-md-3 {
-  text-align:center;
+  text-align: center;
   width: 100%;
   font-size: 25px;
   text-decoration: none !important;
 }
 
 .d-flex.flex-column.flex-md-row.align-items-center.p-3.px-md-4.mb-3.bg-green.border-bottom.shadow-sm {
-  text-align:center;
+  text-align: center;
   background-color: aliceblue;
   margin-bottom: 0% !important;
   padding: 0% !important;
 
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: "Roboto Mono", monospace;
   font-size: 22px;
-
 }
-
-
 
 .btn.btn-outline-primary {
   text-align: right;
@@ -111,20 +111,18 @@ th.viewon, th.delete {
   color: green;
   font-size: 28px;
   margin-left: 10px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
-
+  font-family: "Roboto Mono", monospace;
 }
 
 .user-history {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-
 }
 
 .container_home {
   width: 100%;
-  background-color: #CAE6DC;
+  background-color: #cae6dc;
   margin: 0%;
   padding: 0%;
 }
@@ -160,26 +158,25 @@ h2 {
   margin-left: 100px;
 }
 
-.container-logout{
+.container-logout {
   text-align: center;
   margin-top: 100px;
 }
 
 .logout {
   font-size: 50px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: "Roboto Mono", monospace;
   color: rgb(71, 189, 124);
-
 }
 
 .cofirm_logout {
   font-size: 30px;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Roboto Mono", monospace;
 }
 
 .hompage {
   margin-left: 30px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: "Roboto Mono", monospace;
 }
 
 .btn.btn-outline-primary {
@@ -201,10 +198,7 @@ h2 {
 .column {
   float: left;
   width: 50%;
-
 }
-
-
 
 .column_image {
   float: left;
@@ -228,9 +222,7 @@ h2 {
   margin-top: 20px;
   margin-left: 50px;
   font-size: 30px;
-  /* font-family: Georgia, 'Times New Roman', Times, serif; */
-  /* font-family: 'Roboto', sans-serif; */
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
 }
 
 .home_crequest {
@@ -238,10 +230,8 @@ h2 {
 }
 
 body {
-  background-color: #CAE6DC;
-  /* font-family: Georgia, 'Times New Roman', Times, serif; */
-  /* font-family: 'Roboto', sans-serif; */
-  font-family: 'Roboto Mono', monospace;
+  background-color: #cae6dc;
+  font-family: "Roboto Mono", monospace;
 }
 
 p.display_result_motif {
@@ -256,7 +246,6 @@ p.display_result_motif {
   align-items: center; /* căn giữa theo chiều dọc */
   flex-direction: column;
   margin-top: 20px;
-  font-weight: bold;
   font-size: large;
 }
 

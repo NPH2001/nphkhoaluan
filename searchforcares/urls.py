@@ -7,4 +7,5 @@ urlpatterns = [
   path('history-detail-search-care/<uuid:pk>/', Detail_ac, name='Detail_ac'),
   path('export-csv/', SearchMotif.export_csv_by_current_result, name='export_csv'),
   path('export-rev-csv/', SearchMotif.export_csv_by_current_rev_result, name='export_rev_csv'),
+  path('send-email/', SearchMotif.send_csv_to_email, name='send_email'),
 ]

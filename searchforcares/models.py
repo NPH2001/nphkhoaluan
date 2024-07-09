@@ -16,7 +16,7 @@ class Searchforcare(models.Model):
   
 
 class History_search_care(models.Model):
-  F_r = models.CharField(max_length=5000, null=True, blank=True)
-  R_f_r = models.CharField(max_length=5000, null=True, blank=True)
+  F_r = models.CharField(max_length=100000, null=True, blank=True)
+  R_f_r = models.CharField(max_length=100000, null=True, blank=True)
   Ms= models.ManyToManyField(Factor, related_name='Ms_factor', blank=True)
   Ms_r = models.ManyToManyField(Factor, related_name='Ms_r_factor', blank=True)
