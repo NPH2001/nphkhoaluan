@@ -127,11 +127,14 @@ class SearchMotif(ObjectViewMixin, ListView):
     def fill_color(self, fragment):
         # Chuỗi cần xử lý
         vcc = fragment
+        list_factor_with_function = []
+        list_factor_without_function = []
         list_factor = []
 
         # Giả sử vcc_list chứa các đối tượng Factor với thuộc tính sq và color
         vcc_list = Factor.objects.all()
-        vcc_list = sorted(vcc_list, key=lambda i: len(i.sq), reverse=True)
+        # vcc_list = sorted(vcc_list, key=lambda i: len(i.sq), reverse=True)
+        vcc_list = sorted(vcc_list, key=lambda i: (i.ft is None, -len(i.sq)))
 
         # Danh sách để lưu trữ các vị trí đã được tô màu
         colored_positions = []
@@ -173,7 +176,11 @@ class SearchMotif(ObjectViewMixin, ListView):
 
             # Thêm phần tử tương ứng vào list_factor
             if positions:
-                list_factor.append(factor)
+                # list_factor.append(factor)
+                if factor.ft:
+                    list_factor_with_function.append(factor)
+                else:
+                    list_factor_without_function.append(factor)
 
         # Sắp xếp lại danh sách các thẻ <span> theo vị trí bắt đầu (tăng dần)
         span_list = sorted(span_list, key=lambda x: x[0])
@@ -205,6 +212,8 @@ class SearchMotif(ObjectViewMixin, ListView):
         data = {}
         data["text_fill"] = vcc
         data["list_factor"] = list_factor
+        data["list_factor_with_function"] = list_factor_with_function
+        data["list_factor_without_function"] = list_factor_without_function
         return data
 
     def get_context_data(self, **kwargs):
@@ -231,6 +240,8 @@ class SearchMotif(ObjectViewMixin, ListView):
         context["fragment"] = vgg["text_fill"]
         context["reverse_fragment"] = vgg1["text_fill"]
         context["motif_found"] = vgg["list_factor"]
+        context["function_motif_found"] = vgg["list_factor_with_function"]
+        context["without_function_motif_found"] = vgg["list_factor_without_function"]
         context["reverse_motif_found"] = vgg1["list_factor"]
         context["factor_ac"] = database
 

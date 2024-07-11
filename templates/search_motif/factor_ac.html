@@ -1,23 +1,24 @@
-{% extends '_base.html' %}
-
-
-{% block title %}{{ factor.factor_id }}{% endblock title %}
-
-
+{% extends '_base.html' %} 
+{% block title %}{{ factor.factor_id }}{% endblock title %} 
 {% block content %}
 <div class="factor-ac">
   <h3><a href="">{{ factor.ac }}</a></h3>
-  <p>Unique identifier: {{ factor.id }}</p>
-  <p>Unique accession number: {{ factor.ac }}</p>
-  <p>Date of update: {{ factor.dt }}</p>
-  <p>Brief description of the motif: {{ factor.de }}</p>
-  <p>Keywords: {{ factor.kw }}</p>
-  <p>Common name and/or scientific name of plant specie: {{ factor.os }}</p>
-  <p>Author name(s) of a relevant report: {{ factor.ra }}</p>
-  <p>Title of the report: {{ factor.rt }}</p>
-  <p>Bibliographic information of the report: {{ factor.rl }}</p>
-  <p>RC: {{ factor.rc }}</p>
-  <p>PubMed ID numbers or GenBank accession number: {{ factor.rd }}</p>
-  <p>Motif sequence: {{ factor.sq }}</p>
+  <p><b>Function label: </b>{{ factor.ft }}</p>
+  {% if factor.ft %}
+    <p><b>Function details: </b>{{ factor.ft.detail_label }}</p>
+  {% endif %}
+  <p><b>Unique accession number:</b> {{ factor.ac }}</p>
+  <p><b>Date of update:</b> {{ factor.dt }}</p>
+  <p><b>Brief description of the motif:</b> {{ factor.de }}</p>
+  <p><b>Keywords:</b> {{ factor.kw }}</p>
+  <p>
+    <b>Common name and/or scientific name of plant specie:</b> {{ factor.os }}
+  </p>
+  <p><b>Author name(s) of a relevant report:</b> {{ factor.ra }}</p>
+  <p><b>Title of the report:</b> {{ factor.rt }}</p>
+  <p><b>Bibliographic information of the report:</b> {{ factor.rl }}</p>
+  <p><b>RC:</b> {{ factor.rc }}</p>
+  <p><b>PubMed ID numbers or GenBank accession number:</b> {{ factor.rd }}</p>
+  <p><b>Motif sequence:</b> {{ factor.sq }}</p>
 </div>
 {% endblock content %}

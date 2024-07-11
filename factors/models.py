@@ -2,6 +2,17 @@ import uuid
 from django.db import models
 from django.urls import reverse
 
+class FunctionLabels(models.Model):
+  id = models.UUIDField( # new
+      primary_key=True,
+      default=uuid.uuid4,
+      editable=False)
+  label = models.CharField(max_length=200,null=True, blank=True)
+  detail_label = models.CharField(max_length=200,null=True, blank=True)
+  
+  def __str__(self):
+    return self.label
+  
 class Factor(models.Model):
   id = models.UUIDField( # new
       primary_key=True,
@@ -20,6 +31,7 @@ class Factor(models.Model):
   sq = models.CharField(max_length=200,null=True, blank=True)
   color = models.CharField(max_length=200,null=True, blank=True)
   note = models.CharField(max_length=100, null=True, blank=True)
+  ft = models.ForeignKey(FunctionLabels, on_delete=models.CASCADE, null=True, blank=True)
   # dt = models.DecimalField(max_digits=6, decimal_places=2)
 
   
@@ -28,3 +40,4 @@ class Factor(models.Model):
   
   def get_absolute_url(self):
     return reverse('factor_ac', args=[str(self.id)])
+  

@@ -9,84 +9,90 @@ CARE{%endblock title %} {% block content %}
 </div>
 
 <div class="result_sequences">
-  <div class="result-seq-container">
-    <div class="result-seq">
-      <h3>Fragment result:</h3>
-      <div id="dna-output" class="dna-container"></div>
-    </div>
-    <div class="column">
-      <h3>Motif found in sequence to submit</h3>
-      <button id="export-csv-button">Export CSV</button>
-      <form
-        id="export-csv-form"
-        action="{% url 'export_csv' %}"
-        method="get"
-        style="display: none"
-      ></form>
-      {% for i in motif_found %}
-      <p>
-        <a href="#" class="motif-link" data-seq="{{ i.sq }}">{{ i.ac }}</a>:
-        <span
-          class="highlight motif"
-          data-id="{{ i.sq }}"
-          style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
-          >{{ i.sq }}</span
-        >
-        <div class="motif-details" id="details-{{ i.sq }}" style="display: none;">
-          <p>Short description: {{ i.de }}</p>
-          <p>Organism: {{ i.os }}</p>
-        </div>
-      </p>
-      {% endfor %}
-    </div>
+  <div class="result-seq">
+    <h3>Fragment result:</h3>
+    <div id="dna-output" class="dna-container"></div>
+  </div>
+
+  <div class="result-detail-seq">
+    <h3>Motif found in sequence to submit</h3>
+    {% if user.is_authenticated %}
+    <button id="export-csv-button">Export CSV</button>
+    <form
+      id="export-csv-form"
+      action="{% url 'export_csv' %}"
+      method="get"
+      style="display: none"
+    ></form>
+    {% endif %}
+    {% for i in function_motif_found %}
+    <p>
+      {% if i.ft %}
+      <strong>Function: {{ i.ft.label }}</strong><br>
+      {% endif %}
+      <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
+      <span
+        class="highlight motif"
+        data-id="{{ i.sq }}"
+        style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
+        >{{ i.sq }}</span
+      >
+      <div class="motif-details" id="details-{{ i.sq }}" style="display: none;">
+        <p>Short description: {{ i.de }}</p>
+        <p>Organism: {{ i.os }}</p>
+      </div>
+    </p>
+    {% endfor %}
+    <strong>No function found</strong>
+    {% for i in without_function_motif_found %}
+    <p>
+      {% if i.ft %}
+      <strong>Function: {{ i.ft.label }}</strong><br>
+      {% endif %}
+      <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
+      <span
+        class="highlight motif"
+        data-id="{{ i.sq }}"
+        style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
+        >{{ i.sq }}</span
+      >
+      <div class="motif-details" id="details-{{ i.sq }}" style="display: none;">
+        <p>Short description: {{ i.de }}</p>
+        <p>Organism: {{ i.os }}</p>
+      </div>
+    </p>
+    {% endfor %}
+  </div>
+
+  <div class="reverse-dna-container" style="display: none">
+    <h3>Reverse fragment results</h3>
+    <div id="reverse-dna-output" class="dna-container"></div>
+  </div>
+
+  <div id="result-reverse" style="display: none">
+    <h3>Motif found in sequence_reverse to submit</h3>
+    {% if user.is_authenticated %}
+    <button id="export-rev-csv-button">Export CSV</button>
+    <form
+      id="export-rev-csv-form"
+      action="{% url 'export_rev_csv' %}"
+      method="get"
+      style="display: none"
+    ></form>
+    {% endif %}
+    {% for i in reverse_motif_found %}
+    <p>
+      <a href="#" class="motif-link" data-seq="{{ i.sq }}">{{ i.ac }}</a>:
+      <span
+        class="highlight motif"
+        data-id="{{ i.sq }}"
+        style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
+        >{{ i.sq }}</span
+      >
+    </p>
+    {% endfor %}
   </div>
 </div>
-
-<div class="result_sequences">
-  <div class="result-seq-container">
-    <div class="reverse-dna-container result-seq" style="display: none">
-      <h3>Reverse fragment results</h3>
-      <div id="reverse-dna-output" class="dna-container"></div>
-    </div>
-
-    <div class="column" id="result-reverse" style="display: none">
-      <h3>Motif found in sequence_reverse to submit</h3>
-      <button id="export-rev-csv-button">Export CSV</button>
-      <form
-        id="export-rev-csv-form"
-        action="{% url 'export_rev_csv' %}"
-        method="get"
-        style="display: none"
-      ></form>
-      {% for i in reverse_motif_found %}
-      <p>
-        <a href="#" class="motif-link" data-seq="{{ i.sq }}">{{ i.ac }}</a>:
-        <span
-          class="highlight motif"
-          data-id="{{ i.sq }}"
-          style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
-          >{{ i.sq }}</span
-        >
-      </p>
-      {% endfor %}
-    </div>
-  </div>
-</div>
-
-{% comment %}
-<p>{{ motif_found }}</p>
-{% endcomment %}
-
-<!-- {% for factor in motif_found %}
-      <p><a href="{{ searchforcare.get_absolute_url }}">{{factor}}</a></p>
-  {% endfor %}
-      <h3><a href="{{ factor.get_absolute_url }}">{{ factor.ac }}</a></h3>
-      <p>AC: {{ factor.ac }}</p>
-      <p>DT: {{ factor.dt }}</p>
-      <p>RD: {{ factor.rd }}</p>  -->
-{% comment %}
-<p>{{ reverse_motif_found }}</p>
-{% endcomment %}
 
 <script>
   function convertDnaStringToList(dna) {
@@ -169,7 +175,7 @@ CARE{%endblock title %} {% block content %}
 
     toggleReverseCheckbox.addEventListener("change", function () {
       if (this.checked) {
-        reverseDnaContainer.style.display = "contents";
+        reverseDnaContainer.style.display = "block";
         reverseResultContainer.style.display = "block";
       } else {
         reverseDnaContainer.style.display = "none";
@@ -217,13 +223,22 @@ CARE{%endblock title %} {% block content %}
   }
 
   .result-seq-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto; /* Tự động điều chỉnh chiều cao */
+    grid-gap: 20px; /* Khoảng cách giữa các hàng */
   }
 
   .result-seq {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+
+  .result-detail-seq {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
   }
 
   .motif-details {
@@ -231,6 +246,26 @@ CARE{%endblock title %} {% block content %}
     background-color: #f9f9f9;
     padding: 10px;
     border: 1px solid #ccc;
+  }
+
+  .result_sequences {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Chia làm 2 cột đều nhau */
+    grid-gap: 20px; /* Khoảng cách giữa các cột */
+  }
+
+  .reverse-dna-container {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+  }
+  
+  #result-reverse {
+    grid-row: 2 / 3; /* Đặt vị trí hàng cho reverse motif results */
+    grid-column: 2 / 3;
+  }
+
+  #export-csv-button {
+    width: 25%;
   }
 </style>
 
