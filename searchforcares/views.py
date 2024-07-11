@@ -243,6 +243,8 @@ class SearchMotif(ObjectViewMixin, ListView):
         context["function_motif_found"] = vgg["list_factor_with_function"]
         context["without_function_motif_found"] = vgg["list_factor_without_function"]
         context["reverse_motif_found"] = vgg1["list_factor"]
+        context["function_motif_found_rev"] = vgg1["list_factor_with_function"]
+        context["without_function_motif_found_rev"] = vgg1["list_factor_without_function"]
         context["factor_ac"] = database
 
         # print ('self.request.user', self.request.user.is_authenticated)

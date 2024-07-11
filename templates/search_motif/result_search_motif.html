@@ -18,13 +18,13 @@ CARE{%endblock title %} {% block content %}
     <h3>Motif found in sequence to submit</h3>
     {% if user.is_authenticated %}
     <button id="export-csv-button">Export CSV</button>
+    {% endif %}
     <form
       id="export-csv-form"
       action="{% url 'export_csv' %}"
       method="get"
       style="display: none"
     ></form>
-    {% endif %}
     {% for i in function_motif_found %}
     <p>
       {% if i.ft %}
@@ -73,22 +73,48 @@ CARE{%endblock title %} {% block content %}
     <h3>Motif found in sequence_reverse to submit</h3>
     {% if user.is_authenticated %}
     <button id="export-rev-csv-button">Export CSV</button>
+    {% endif %}
     <form
       id="export-rev-csv-form"
       action="{% url 'export_rev_csv' %}"
       method="get"
       style="display: none"
     ></form>
-    {% endif %}
-    {% for i in reverse_motif_found %}
+    {% for i in function_motif_found_rev %}
     <p>
-      <a href="#" class="motif-link" data-seq="{{ i.sq }}">{{ i.ac }}</a>:
+      {% if i.ft %}
+      <strong>Function: {{ i.ft.label }}</strong><br>
+      {% endif %}
+      <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
       <span
         class="highlight motif"
         data-id="{{ i.sq }}"
         style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
         >{{ i.sq }}</span
       >
+      <div class="motif-details" id="details-{{ i.sq }}" style="display: none;">
+        <p>Short description: {{ i.de }}</p>
+        <p>Organism: {{ i.os }}</p>
+      </div>
+    </p>
+    {% endfor %}
+    <strong>No function found</strong>
+    {% for i in without_function_motif_found_rev %}
+    <p>
+      {% if i.ft %}
+      <strong>Function: {{ i.ft.label }}</strong><br>
+      {% endif %}
+      <a href="{% url 'Detail_ac' pk=i.id %}">{{ i.ac }}</a>:
+      <span
+        class="highlight motif"
+        data-id="{{ i.sq }}"
+        style="background-color: {{i.color}}; color:white; padding-right: 8px; padding-left: 8px;"
+        >{{ i.sq }}</span
+      >
+      <div class="motif-details" id="details-{{ i.sq }}" style="display: none;">
+        <p>Short description: {{ i.de }}</p>
+        <p>Organism: {{ i.os }}</p>
+      </div>
     </p>
     {% endfor %}
   </div>
@@ -183,14 +209,7 @@ CARE{%endblock title %} {% block content %}
       }
     });
 
-    document.querySelectorAll(".motif-link").forEach((link) => {
-      link.addEventListener("click", function (event) {
-        event.preventDefault();
-        const motifId = this.dataset.seq;
-        toggleHighlightAndDetails(motifId);
-      });
-    });
-
+    {% if user.is_authenticated %}
     document
       .getElementById("export-csv-button")
       .addEventListener("click", function () {
@@ -202,6 +221,17 @@ CARE{%endblock title %} {% block content %}
       .addEventListener("click", function () {
         document.getElementById("export-rev-csv-form").submit();
       });
+
+    {% endif %}
+
+    document.querySelectorAll(".motif-link").forEach((link) => {
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+        const motifId = this.dataset.seq;
+        toggleHighlightAndDetails(motifId);
+      });
+    });
+
 
     document.querySelectorAll(".motif").forEach((motif) => {
       motif.addEventListener("click", function () {
